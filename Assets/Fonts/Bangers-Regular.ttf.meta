@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: aeb25181573bbb04392b4629ba61e8c3
+timeCreated: 1507324487
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Bangers
+  fontNames:
+  - Bangers
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
