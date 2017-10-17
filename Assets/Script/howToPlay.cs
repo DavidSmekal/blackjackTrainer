@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class howToPlay : MonoBehaviour {
+public class howToPlay : MonoBehaviour
+{
 
     public GameObject modalWindow;
     public GameObject closeModal;

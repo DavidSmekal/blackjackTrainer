@@ -5,7 +5,8 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 
-public class settingsPage : MonoBehaviour {
+public class settingsPage : MonoBehaviour
+{
 
     public GameObject leftButton;
     public GameObject rightButton;
@@ -16,9 +17,14 @@ public class settingsPage : MonoBehaviour {
     public GameObject closeModal;
 
     public GameObject modalWindow;
-
     public GameObject modalWindow2;
+    public GameObject modalWindow3;
 
+    public InputField nameInputField;
+    public InputField emailInputField;
+    public InputField feedbackInputField;
+
+    public Text feedbackThanks;
 
 
 
@@ -30,28 +36,36 @@ public class settingsPage : MonoBehaviour {
         // this hides the modal pop up
         modalWindow.SetActive(false);
         modalWindow2.SetActive(false);
+        modalWindow3.SetActive(false);
 
-        StartCoroutine(Upload());
+
+
     }
 
+    //this upload method sends feedback to my php script in my server
+    //the server then emails it to my email
     IEnumerator Upload()
     {
         WWWForm form = new WWWForm();
-        form.AddField("content", "myData");
-        form.AddField("index", "myData");
+        form.AddField("name", nameInputField.text);
+        form.AddField("email", emailInputField.text);
+        form.AddField("input", feedbackInputField.text);
 
-        
+
+
         UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/form.php", form);
-        yield return www;
+        yield return www.Send();
 
         if (www.isNetworkError || www.isHttpError)
         {
             Debug.Log(www.error);
+            feedbackThanks.text = www.error;
         }
         else
         {
             Debug.Log("Form upload complete!");
-           
+            feedbackThanks.text = "Thank you for sending feedback!";
+
         }
     }
 
@@ -65,7 +79,7 @@ public class settingsPage : MonoBehaviour {
 
         // this makes the checkmark fade
         checkMarkConfirmation.CrossFadeAlpha(0.0f, 1.0f, true);
-        
+
 
     }
 
@@ -100,6 +114,22 @@ public class settingsPage : MonoBehaviour {
     public void closeAlignmentModal()
     {
         modalWindow2.SetActive(false);
+    }
+
+    // the button to send the feedback to my email
+    public void sendText()
+    {
+        StartCoroutine(Upload());
+    }
+
+    public void openFeedbackModal()
+    {
+        modalWindow3.SetActive(true);
+    }
+
+    public void closeFeedbackModal()
+    {
+        modalWindow3.SetActive(false);
     }
 
 

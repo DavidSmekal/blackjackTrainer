@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class storePurchases : MonoBehaviour {
+public class storePurchases : MonoBehaviour
+{
 
     //retrieving the coins stored in memory
     private int coinCount = 0;
@@ -26,13 +27,13 @@ public class storePurchases : MonoBehaviour {
 
     // this will change the text to show the user which deck they clicked on
     public Text changedDeck;
-  
+
 
     SpriteRenderer spriteRenderer;
 
     Cards cards;
 
-   
+
     public GameObject button2;
     public GameObject button3;
     public GameObject button4;
@@ -44,6 +45,7 @@ public class storePurchases : MonoBehaviour {
     public GameObject purchaseButton3;
     public GameObject purchaseButton4;
     public GameObject purchaseButton5;
+
 
 
     //playerpreference to store the user's deck choice
@@ -59,7 +61,7 @@ public class storePurchases : MonoBehaviour {
 
     void Update()
     {
-   
+
         //shows the total coins at the top of the screen
         coinCount = PlayerPrefs.GetInt("Coins");
         countText.text = coinCount.ToString();
@@ -69,7 +71,7 @@ public class storePurchases : MonoBehaviour {
         {
             purchaseButton1.GetComponent<Button>().interactable = false;
         }
-         if (coinCount < 10000)
+        if (coinCount < 10000)
         {
             purchaseButton2.GetComponent<Button>().interactable = false;
         }
@@ -85,19 +87,19 @@ public class storePurchases : MonoBehaviour {
         {
             purchaseButton5.GetComponent<Button>().interactable = false;
         }
-    
+
 
         //get the saved string to get the purchased items
         string savedString = PlayerPrefs.GetString("Unlocked_items");
 
         // if the item has been purchased, disable the button
-           if (savedString.Contains("1"))
-           {
+        if (savedString.Contains("1"))
+        {
             button2.GetComponent<Button>().interactable = true;
             purchaseButton1.GetComponent<Button>().interactable = false;
         }
-           if (savedString.Contains("2"))
-            {
+        if (savedString.Contains("2"))
+        {
             button3.GetComponent<Button>().interactable = true;
             purchaseButton2.GetComponent<Button>().interactable = false;
         }
@@ -148,7 +150,7 @@ public class storePurchases : MonoBehaviour {
         // the int will decide which items are unlocked. example. 12  items 1 and 2 will be unlocked. dirty method.
         string x = itemNumber;
 
-       
+
 
         string savedString = PlayerPrefs.GetString("Unlocked_items");
 
@@ -194,7 +196,7 @@ public class storePurchases : MonoBehaviour {
     public void switchSprite(string x)
     {
         //save string choice in playerpreference
-       PlayerPrefs.SetString("Skin", x);
+        PlayerPrefs.SetString("Skin", x);
 
         //if the 'enable' button has been pressed, a pop up will occur
         modalWindow.SetActive(true);
@@ -209,7 +211,7 @@ public class storePurchases : MonoBehaviour {
     public void closeModal()
     {
         modalWindow.SetActive(false);
-      
+
     }
 
 

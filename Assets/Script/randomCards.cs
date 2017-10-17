@@ -122,7 +122,7 @@ public class randomCards : MonoBehaviour
     }
 
 
-  
+
 
     void Awake()
     {
@@ -158,11 +158,11 @@ public class randomCards : MonoBehaviour
         }
         else if (position == 1)
         {
-       
+
             leftSide.SetActive(true);
             rightSide.SetActive(false);
         }
-        
+
 
 
         //finds the skin stored in player preference and uses it to set the cardback
@@ -235,7 +235,7 @@ public class randomCards : MonoBehaviour
         }
 
         //passing the cardArray to the shuffle method to get a shuffled array
-         int[] shuffledArray = shuffleArray(cardArray);
+        int[] shuffledArray = shuffleArray(cardArray);
 
 
         //player card 1
@@ -260,7 +260,7 @@ public class randomCards : MonoBehaviour
         card4 = shuffledArray[3];
         dcards2.cardIndex = card4;
         dcards2.showBack(skin);
-        
+
 
 
         //this will show the card totals on the UI
@@ -356,7 +356,7 @@ public class randomCards : MonoBehaviour
         {
             int firstPlayerCardValue = firstPlayerCard.value;
             int secondPlayerCardValue = secondPlayerCard.value;
-           
+
 
             if (firstPlayerCardValue == 1 || secondPlayerCardValue == 1)
             {
@@ -737,7 +737,7 @@ public class randomCards : MonoBehaviour
         if (feedbackInt == 1)
         {
             feedBackText.text = "You should hit";
-          
+
 
         }
         else if (feedbackInt == 2)
@@ -763,7 +763,7 @@ public class randomCards : MonoBehaviour
     // gets called when the button is pressed in UI
     void hit()
     {
-        
+
         playersMove.text = "You hit!";
         correctAnswerNumber = 1;
         checkAnswer(correctAnswerNumber, returned, card1, card2, card3);
@@ -807,12 +807,12 @@ public class randomCards : MonoBehaviour
         modalWindow.SetActive(true);
 
 
-     
+
 
         if (returned == 1)
         {
             modalFeedbackHelp.text = "If you have '" + card2Face + ", " + card1Face + "' and the dealer has '" + card3Face + "', you should hit";
-          
+
 
         }
         else if (returned == 2)
@@ -918,7 +918,7 @@ public class randomCards : MonoBehaviour
 
         percentageText.text = "Percentage:" + correct + "/" + total + "          " + percentageRounded + "%";
 
-        
+
     }
 
     // if this button is pressed, it will close the modal

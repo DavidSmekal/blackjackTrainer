@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // this class handles changing the background to red or green
-public class confirmationCardSwitch : MonoBehaviour {
+public class confirmationCardSwitch : MonoBehaviour
+{
 
 
     // You cannot attach a sprite to a static field. Thus, if you go =
@@ -16,7 +17,7 @@ public class confirmationCardSwitch : MonoBehaviour {
     public Sprite correct;
     public Sprite incorrect;
 
- 
+
 
     void Start()
     {
@@ -27,15 +28,14 @@ public class confirmationCardSwitch : MonoBehaviour {
 
     public static void changeCorrect()
     {
-       
+
         spriteRenderer.sprite = statCorrect;
- 
+
     }
 
     public static void changeIncorrect()
     {
         spriteRenderer.sprite = statIncorrect;
-   
     }
 
 }

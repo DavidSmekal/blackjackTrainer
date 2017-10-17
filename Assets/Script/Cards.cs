@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cards : MonoBehaviour {
+public class Cards : MonoBehaviour
+{
 
     SpriteRenderer spriteRenderer;
 
@@ -14,15 +15,15 @@ public class Cards : MonoBehaviour {
     public Sprite cardBack5;
     public Sprite cardBack6;
 
- 
+
     public int cardIndex;
 
- 
+
     public void showFace()
     {
-       
-       spriteRenderer.sprite = cardFront[cardIndex];
-       
+
+        spriteRenderer.sprite = cardFront[cardIndex];
+
     }
 
     //this method could change the sprites. for example, i could have if something = 1, change it to cardback2, etc.
@@ -54,9 +55,9 @@ public class Cards : MonoBehaviour {
         }
     }
 
-   
 
-    void Awake()   
+
+    void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -65,7 +66,7 @@ public class Cards : MonoBehaviour {
         {
             spriteRenderer.sprite = cardBack;
         }
-       
+
     }
-   
+
 }
