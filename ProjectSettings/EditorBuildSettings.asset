@@ -6,20 +6,23 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Main Menu.unity
+    path: Assets/Main Menu/Scenes/Main Menu.unity
     guid: 375d49c9b5465b248896345ccba97895
   - enabled: 1
-    path: Assets/Scenes/Train.unity
+    path: Assets/Main Menu/Scenes/Train.unity
     guid: 4a7648c90187c1140b5e7c1eac062b8f
   - enabled: 1
-    path: Assets/Scenes/Store.unity
+    path: Assets/Main Menu/Scenes/Store.unity
     guid: 9816b1aa681c7e7458062b8f4671f1a2
   - enabled: 1
-    path: Assets/Scenes/Settings.unity
+    path: Assets/Main Menu/Scenes/Settings.unity
     guid: 84987fea3a2947943ac43a00ce0908bc
   - enabled: 1
-    path: Assets/Scenes/How to Play.unity
+    path: Assets/Main Menu/Scenes/How to Play.unity
     guid: 439300e30e7dc7942b58c6a9d4b57305
   - enabled: 1
-    path: Assets/Scenes/Game Rules.unity
+    path: Assets/Main Menu/Scenes/Game Rules.unity
     guid: 402a687d8af94d24a87e86d103bd7186
+  - enabled: 1
+    path: Assets/Main Menu/Scenes/Timed Challenge.unity
+    guid: 685b00f1895c88b4ebed736957851d0c
