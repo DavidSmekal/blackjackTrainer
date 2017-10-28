@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using UnityEngine.Networking;
 
 public class randomCardsTimed : MonoBehaviour
 {
@@ -116,8 +118,8 @@ public class randomCardsTimed : MonoBehaviour
 
     // this stuff below will all be stuff added to this new gamemode (so I don't get confused if I have to change something later)
     ///////////////////////////////////////////////////////////////
-    // 30 second timer
-    private float timeLeft = 60f;
+    // 60 second timer
+    private float timeLeft = 5f;
     // text to store the timer in the user interface
     public Text timer;
     //need to keep score. 
@@ -129,6 +131,8 @@ public class randomCardsTimed : MonoBehaviour
     // game over modal score and percentage 
     public Text gameOverScore;
     public Text gameOverPercentage;
+    // boolean to stop the gameover method from calling over and over again.
+    public bool updateBool = true;
     
 
     //method to shuffle the array
@@ -172,20 +176,22 @@ public class randomCardsTimed : MonoBehaviour
 
     void Update()
     {
-
-       timeLeft -= Time.deltaTime;
+        // this decrements the timer
+        timeLeft -= Time.deltaTime;
         int intTimeLeft = Mathf.RoundToInt(timeLeft);
       
         timer.text = intTimeLeft.ToString();
      
-        if (timeLeft < 0)
+        if ((updateBool == true) && (timeLeft < 0))
         {
+            
+               // after destroy is called, it will cause an error to repeat in the console since I am
+                // am still trying to access Text. I don't think this should impact gameplay, so I will
+                // leave it be.
+                Destroy(timer);
+                GameOver();
+                updateBool = false;
           
-            // after destroy is called, it will cause an error to repeat in the console since I am
-            // am still trying to access Text. I don't think this should impact gameplay, so I will
-            // leave it be.
-            Destroy(timer);
-            GameOver();
         }
 
     }
@@ -573,7 +579,37 @@ public class randomCardsTimed : MonoBehaviour
         gameOverPercentage.text = "Percentage: " + correct + "/" + total + "          " + percentageRounded + "%";
 
         gameOverScore.text = "Score: " + timedScore;
-   
+
+        StartCoroutine(Upload());
+
+
+    }
+
+    IEnumerator Upload()
+    {
+        WWWForm form = new WWWForm();
+        String uniqueSystemIde = SystemInfo.deviceUniqueIdentifier;
+       
+
+        form.AddField("id", uniqueSystemIde);
+        form.AddField("score", timedScore);
+      
+
+
+        UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/database_stats.php", form);
+        yield return www.Send();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+      
+        }
+        else
+        {
+            Debug.Log("Form upload complete!");
+    
+
+        }
     }
 
     public void PlayAgain()
