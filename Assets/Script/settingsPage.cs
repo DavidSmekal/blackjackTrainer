@@ -231,8 +231,16 @@ public class settingsPage : MonoBehaviour
 
     public void closechangeUserNameModal()
     {
-        StartCoroutine(Upload2());
-        modalchangeUserName.SetActive(false);
+
+
+        if (newUsername.text.Length > 2)
+        {
+            StartCoroutine(Upload2());
+            modalchangeUserName.SetActive(false);
+        }
+            
+
+
     }
 
     IEnumerator Upload2()

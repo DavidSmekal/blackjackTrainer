@@ -119,7 +119,7 @@ public class randomCardsTimed : MonoBehaviour
     // this stuff below will all be stuff added to this new gamemode (so I don't get confused if I have to change something later)
     ///////////////////////////////////////////////////////////////
     // 60 second timer
-    private float timeLeft = 5f;
+    private float timeLeft = 10f;
     // text to store the timer in the user interface
     public Text timer;
     //need to keep score. 
@@ -668,20 +668,19 @@ public class randomCardsTimed : MonoBehaviour
     //this will close the set username modal. At the the same time, it will input the username into playerprefs.
     public void closeAndUpdateUsername()
     {
-        String setUsername = usernameInput.text;
 
-        Debug.Log("From input: " + setUsername);
 
-        PlayerPrefs.SetString("Username", setUsername);
+        PlayerPrefs.SetString("Username", usernameInput.text);
 
         if (PlayerPrefs.GetString("Username").Length > 2)
         {
             setNameLeaderboards.SetActive(false);
+            StartCoroutine(Upload());
         }
 
         Debug.Log("From player prefs: " + PlayerPrefs.GetString("Username"));
 
-        StartCoroutine(Upload());
+        
     }
 
     
