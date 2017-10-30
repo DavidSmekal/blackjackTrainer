@@ -133,7 +133,12 @@ public class randomCardsTimed : MonoBehaviour
     public Text gameOverPercentage;
     // boolean to stop the gameover method from calling over and over again.
     public bool updateBool = true;
-    
+    // modal to set username for leaderboards
+    public GameObject setNameLeaderboards;
+    //username text input
+    public InputField usernameInput;
+
+
 
     //method to shuffle the array
     private int[] shuffleArray(int[] deck)
@@ -155,6 +160,16 @@ public class randomCardsTimed : MonoBehaviour
         // this hides the modal pop up
         modalWindow.SetActive(false);
         gameOverModal.SetActive(false);
+
+        //if username is set, it will hide username modal
+        if (PlayerPrefs.GetString("Username").Length > 2)
+        {
+            setNameLeaderboards.SetActive(false);
+        }
+        else
+        {
+            setNameLeaderboards.SetActive(true);
+        }
 
         //player card 1
         pcards1 = playerCard1.GetComponent<Cards>();
@@ -580,23 +595,27 @@ public class randomCardsTimed : MonoBehaviour
 
         gameOverScore.text = "Score: " + timedScore;
 
-        StartCoroutine(Upload());
+        StartCoroutine(Upload2());
 
 
     }
 
+    // this will create a new username
     IEnumerator Upload()
     {
         WWWForm form = new WWWForm();
+
+        // gets the users unique deviceId
         String uniqueSystemIde = SystemInfo.deviceUniqueIdentifier;
-       
-
-        form.AddField("id", uniqueSystemIde);
-        form.AddField("score", timedScore);
-      
 
 
-        UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/database_stats.php", form);
+   
+        form.AddField("username", PlayerPrefs.GetString("Username"));
+        form.AddField("deviceId", uniqueSystemIde);
+
+
+
+        UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/insert_user.php", form);
         yield return www.Send();
 
         if (www.isNetworkError || www.isHttpError)
@@ -612,8 +631,58 @@ public class randomCardsTimed : MonoBehaviour
         }
     }
 
+    // this will update the user's score
+    IEnumerator Upload2()
+    {
+        WWWForm form = new WWWForm();
+
+
+
+        form.AddField("count", timedScore);
+        form.AddField("username", PlayerPrefs.GetString("Username"));
+        
+
+
+
+        UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/insert_score.php", form);
+        yield return www.Send();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+
+        }
+        else
+        {
+            Debug.Log("Form upload complete!");
+
+
+        }
+    }
+
     public void PlayAgain()
     {
         SceneManager.LoadScene("Timed Challenge");
     }
+    
+    //this will close the set username modal. At the the same time, it will input the username into playerprefs.
+    public void closeAndUpdateUsername()
+    {
+        String setUsername = usernameInput.text;
+
+        Debug.Log("From input: " + setUsername);
+
+        PlayerPrefs.SetString("Username", setUsername);
+
+        if (PlayerPrefs.GetString("Username").Length > 2)
+        {
+            setNameLeaderboards.SetActive(false);
+        }
+
+        Debug.Log("From player prefs: " + PlayerPrefs.GetString("Username"));
+
+        StartCoroutine(Upload());
+    }
+
+    
 }
