@@ -6,6 +6,7 @@ using System;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.Networking;
+using UnityEngine.Analytics;
 
 public class randomCardsTimed : MonoBehaviour
 {
@@ -59,9 +60,15 @@ public class randomCardsTimed : MonoBehaviour
     public Text streakCountText;
     //this will keep track of the streak
     private int streakCount = 0;
+    //this will keep track of the highest streak count
+    private int highestStreakCount = 0;
 
     //changes a number in the button methods to see if the user is right
     public int correctAnswerNumber;
+
+
+    // play card audio
+    public AudioSource cardDeal;
 
 
     public GameObject playerCard1;
@@ -191,27 +198,33 @@ public class randomCardsTimed : MonoBehaviour
 
     void Update()
     {
-        // this decrements the timer
-        timeLeft -= Time.deltaTime;
-        int intTimeLeft = Mathf.RoundToInt(timeLeft);
-      
-        timer.text = intTimeLeft.ToString();
-     
-        if ((updateBool == true) && (timeLeft < 0))
+        // if the user hasn't typed in a username yet, the timer will be paused
+        if (setNameLeaderboards.activeInHierarchy == false)
         {
-            
-               // after destroy is called, it will cause an error to repeat in the console since I am
+            // this decrements the timer
+            timeLeft -= Time.deltaTime;
+            int intTimeLeft = Mathf.RoundToInt(timeLeft);
+
+            timer.text = intTimeLeft.ToString();
+
+            if ((updateBool == true) && (timeLeft < 0))
+            {
+
+                // after destroy is called, it will cause an error to repeat in the console since I am
                 // am still trying to access Text. I don't think this should impact gameplay, so I will
                 // leave it be.
                 Destroy(timer);
                 GameOver();
                 updateBool = false;
-          
+
+            }
         }
 
     }
     void Start()
     {
+        // plays the card deal sound effect
+        cardDeal.Play();
 
         blackJackCheatSheet blackJackCheatSheet = randomObject.AddComponent<blackJackCheatSheet>();
 
@@ -340,6 +353,8 @@ public class randomCardsTimed : MonoBehaviour
         card1Face = haha[card1].face;
         card2Face = haha[card2].face;
         card3Face = haha[card3].face;
+
+ 
 
 
     }
@@ -542,6 +557,8 @@ public class randomCardsTimed : MonoBehaviour
 
         fdcards1.cardIndex = card3;
         fdcards1.showFace();
+
+
     }
 
     // prints out the amount of coins the user has
@@ -556,6 +573,16 @@ public class randomCardsTimed : MonoBehaviour
     void setStreakCount()
     {
         streakCountText.text = "Streak Counter: " + streakCount.ToString();
+
+        //saves the highest streak count in the variable highestStreakCount
+
+        if (streakCount > highestStreakCount)
+        {
+            highestStreakCount = streakCount;
+        }
+      
+       
+
     }
 
     void setTimedScore()
@@ -613,6 +640,8 @@ public class randomCardsTimed : MonoBehaviour
         form.AddField("username", PlayerPrefs.GetString("Username"));
         form.AddField("deviceId", uniqueSystemIde);
 
+        PlayerPrefs.SetString("Username", usernameInput.text);
+
 
 
         UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/insert_user.php", form);
@@ -634,14 +663,18 @@ public class randomCardsTimed : MonoBehaviour
     // this will update the user's score
     IEnumerator Upload2()
     {
+        // gets the users unique deviceId
+        String uniqueSystemIde = SystemInfo.deviceUniqueIdentifier;
+
         WWWForm form = new WWWForm();
-
-
+  
 
         form.AddField("count", timedScore);
+        form.AddField("correct", correct);
+        form.AddField("incorrect", incorrect);
+        form.AddField("highestStreak", highestStreakCount);
         form.AddField("username", PlayerPrefs.GetString("Username"));
-        
-
+        form.AddField("deviceId", uniqueSystemIde);
 
 
         UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/insert_score.php", form);
@@ -658,6 +691,20 @@ public class randomCardsTimed : MonoBehaviour
 
 
         }
+
+        //this will upload the stats to unity's Analytics so I can view them online
+        Analytics.CustomEvent("TimedGameOver", new Dictionary<string, object>
+        {
+          //  {"username", PlayerPrefs.GetString("Username")},
+            {"count", timedScore }
+         //   {"correct", correct },
+        //    {"incorrect", incorrect },
+          //  {"highestStreak", highestStreakCount }
+
+        });
+    
+
+      
     }
 
     public void PlayAgain()

@@ -174,8 +174,18 @@ public class settingsPage : MonoBehaviour
 
     public void closeDatabaseModal()
     {
+        // this block clears the text because if I didn't and the user were to click on the modal again
+        // it would keep adding onto the previous information
+        rankTextBlock.text = " ";
+        usernameTextBlock.text = " ";
+        scoreTextBlock.text = " ";
+        usernameArray.Clear();
+        scoreArray.Clear();
+        StopCoroutine(viewDatabase());
         modalLeaderboard.SetActive(false);
-    }
+
+ 
+}
 
     IEnumerator viewDatabase()
     {
@@ -191,11 +201,11 @@ public class settingsPage : MonoBehaviour
 
         // databaseArray is in format 423|davio. this for loop will split them
         // it will store the first half into scoreArray, and the second half into usernameArray
-        // the script will take the top 25 scores
+       
         for (int i = 0; i < databaseArray.Length - 1; i++)
         {
             string haha = databaseArray[i];
-            Debug.Log("haha is" + haha);
+          
 
             placeholder = haha.Split('|');
 
@@ -235,10 +245,20 @@ public class settingsPage : MonoBehaviour
 
         if (newUsername.text.Length > 2)
         {
+            //updates the playerpref's username
+            PlayerPrefs.SetString("Username", newUsername.text);
+
             StartCoroutine(Upload2());
+
+            // this clears the text if the user were to open up the modal again
+            newUsername.text = " ";
+
+
             modalchangeUserName.SetActive(false);
         }
-            
+       
+
+
 
 
     }
@@ -255,8 +275,7 @@ public class settingsPage : MonoBehaviour
         form.AddField("username", newUsername.text);
         form.AddField("deviceId", uniqueSystemIde);
 
-        //updates the playerpref's username
-        PlayerPrefs.SetString("Username", newUsername.text);
+        
 
 
 

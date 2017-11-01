@@ -4,6 +4,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.Analytics;
+using UnityEngine.Advertisements;
 
 public class randomCards : MonoBehaviour
 {
@@ -58,6 +60,8 @@ public class randomCards : MonoBehaviour
     public Text streakCountText;
     //this will keep track of the streak
     private int streakCount = 0;
+    //this will keep track of the highest streak count
+    private int highestStreakCount = 0;
 
     //changes a number in the button methods to see if the user is right
     public int correctAnswerNumber;
@@ -89,6 +93,8 @@ public class randomCards : MonoBehaviour
     // shows what choice the player picked
     public Text playersMove;
 
+    // play card audio
+    public AudioSource cardDeal;
 
 
     //an array for the deck of cards
@@ -115,6 +121,9 @@ public class randomCards : MonoBehaviour
     //this will hold the textbox of the percentage
     public Text percentageText;
 
+    // this will hold the buy coins modal
+    public GameObject buyCoinsModal;
+
     //method to shuffle the array
     private int[] shuffleArray(int[] deck)
     {
@@ -134,6 +143,7 @@ public class randomCards : MonoBehaviour
     {
         // this hides the modal pop up
         modalWindow.SetActive(false);
+        buyCoinsModal.SetActive(false);
 
         //player card 1
         pcards1 = playerCard1.GetComponent<Cards>();
@@ -144,16 +154,22 @@ public class randomCards : MonoBehaviour
         //dealer card 2
         dcards2 = dealerCard2.GetComponent<Cards>();
 
-        //shows the coins up at the top
-        coinCount = PlayerPrefs.GetInt("Coins");
-        countText.text = coinCount.ToString();
-
-        
+       
 
 
     }
+
+    void Update()
+    {
+        //shows the coins up at the top
+        coinCount = PlayerPrefs.GetInt("Coins");
+        countText.text = coinCount.ToString();
+    }
     void Start()
     {
+
+        // play card deal sound
+        cardDeal.Play();
 
         blackJackCheatSheet blackJackCheatSheet = randomObject.AddComponent<blackJackCheatSheet>();
 
@@ -347,6 +363,15 @@ public class randomCards : MonoBehaviour
     // gets called when the button is pressed in UI
     void hit()
     {
+        Analytics.CustomEvent("TimedGameOver", new Dictionary<string, object>
+        {
+          //  {"username", PlayerPrefs.GetString("Username")},
+            {"correct", "worked" }
+
+        });
+      
+
+     
 
         playersMove.text = "You hit!";
         correctAnswerNumber = 1;
@@ -490,6 +515,16 @@ public class randomCards : MonoBehaviour
     void setStreakCount()
     {
         streakCountText.text = "Streak Counter: " + streakCount.ToString();
+
+        //saves the highest streak count in the variable highestStreakCount
+
+        if (streakCount > highestStreakCount)
+        {
+            highestStreakCount = streakCount;
+        }
+
+
+
     }
 
     public void percentageCorrect(int correct, int incorrect)
@@ -509,6 +544,59 @@ public class randomCards : MonoBehaviour
     public void closeModal()
     {
         modalWindow.SetActive(false);
+
+    }
+
+    // send analytics to unity if the user presses the whole button (to quit the game)
+    // TODO: update users overall stats here
+    public void homeScreen()
+    {
+        Analytics.CustomEvent("TimedGameOver", new Dictionary<string, object>
+        {
+          //  {"username", PlayerPrefs.GetString("Username")},
+            {"correct", correct },
+            {"incorrect", incorrect },
+            {"highestStreak", highestStreakCount }
+
+        });
+    }
+
+    //sends analytics to unity if the user quit out of the game completely
+    // TODO: update users overall stats here
+    void OnApplicationQuit()
+    {
+
+    }
+
+    public void openBuyCoins()
+    {
+        buyCoinsModal.SetActive(true);
+    }
+
+    public void closeBuyCoins()
+    {
+        buyCoinsModal.SetActive(false);
+    }
+
+    // user watches an ad when they press the button
+    public void watchAd()
+    {
+        ShowOptions options = new ShowOptions();
+        options.resultCallback = HandleShowResult;
+
+        Advertisement.Show("rewardedVideo", options);
+    }
+
+    // handles the results after user watched an add
+    void HandleShowResult(ShowResult result)
+    {
+        if (result == ShowResult.Finished)
+        {
+            coinCount = PlayerPrefs.GetInt("Coins");
+            coinCount = coinCount + 500;
+            PlayerPrefs.SetInt("Coins", coinCount);
+
+        }
 
     }
 }
