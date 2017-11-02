@@ -168,8 +168,12 @@ public class randomCards : MonoBehaviour
     void Start()
     {
 
-        // play card deal sound
-        cardDeal.Play();
+        int soundEffect = PlayerPrefs.GetInt("Sound");
+        if (soundEffect == 1)
+        {
+            // plays the card deal sound effect
+            cardDeal.Play();
+        }
 
         blackJackCheatSheet blackJackCheatSheet = randomObject.AddComponent<blackJackCheatSheet>();
 

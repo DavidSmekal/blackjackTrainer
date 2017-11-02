@@ -13,6 +13,8 @@ public class settingsPage : MonoBehaviour
     public GameObject rightButton;
 
     public Text checkMarkConfirmation;
+    public Text checkMarkConfirmationMusic;
+    public Text checkMarkConfirmationSound;
 
     public GameObject creditsButton;
     public GameObject closeModal;
@@ -50,6 +52,8 @@ public class settingsPage : MonoBehaviour
     {
         // this makes it so I can fade the checkmark multiple times
         checkMarkConfirmation.canvasRenderer.SetAlpha(0f);
+        checkMarkConfirmationSound.canvasRenderer.SetAlpha(0f);
+        checkMarkConfirmationMusic.canvasRenderer.SetAlpha(0f);
 
         // this hides the modal pop up
         modalWindow.SetActive(false);
@@ -113,6 +117,59 @@ public class settingsPage : MonoBehaviour
 
         // this makes the checkmark fade
         checkMarkConfirmation.CrossFadeAlpha(0.0f, 1.0f, false);
+    }
+
+
+    // turn sound effects on
+    // 1 == sound on. 0 = sound off
+        public void soundOn()
+    {
+        PlayerPrefs.SetInt("Sound", 1);
+
+        // this makes it so I can fade the checkmark multiple times
+        checkMarkConfirmationSound.canvasRenderer.SetAlpha(1f);
+
+        // this makes the checkmark fade
+        checkMarkConfirmationSound.CrossFadeAlpha(0.0f, 1.0f, false);
+    }
+
+    // turn sound effects off
+
+    public void soundOff()
+    {
+        PlayerPrefs.SetInt("Sound", 0);
+
+        // this makes it so I can fade the checkmark multiple times
+        checkMarkConfirmationSound.canvasRenderer.SetAlpha(1f);
+
+        // this makes the checkmark fade
+        checkMarkConfirmationSound.CrossFadeAlpha(0.0f, 1.0f, false);
+    }
+
+    // turn music on
+    // 1 = music on. 0 = music off
+    public void musicOn()
+    {
+        PlayerPrefs.SetInt("Music", 1);
+
+        // this makes it so I can fade the checkmark multiple times
+        checkMarkConfirmationMusic.canvasRenderer.SetAlpha(1f);
+
+        // this makes the checkmark fade
+        checkMarkConfirmationMusic.CrossFadeAlpha(0.0f, 1.0f, false);
+    }
+
+    // turn music off
+
+    public void musicOff()
+    {
+        PlayerPrefs.SetInt("Music", 0);
+
+        // this makes it so I can fade the checkmark multiple times
+        checkMarkConfirmationMusic.canvasRenderer.SetAlpha(1f);
+
+        // this makes the checkmark fade
+        checkMarkConfirmationMusic.CrossFadeAlpha(0.0f, 1.0f, false);
     }
 
     public void viewCreditPage()

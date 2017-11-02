@@ -26,3 +26,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Main Menu/Scenes/Timed Challenge.unity
     guid: 685b00f1895c88b4ebed736957851d0c
+  - enabled: 1
+    path: Assets/Main Menu/Scenes/Game Mode.unity
+    guid: cbb95e45390759e409bdf0c14d1adf32

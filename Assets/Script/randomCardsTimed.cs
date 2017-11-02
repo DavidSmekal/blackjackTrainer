@@ -223,8 +223,14 @@ public class randomCardsTimed : MonoBehaviour
     }
     void Start()
     {
-        // plays the card deal sound effect
-        cardDeal.Play();
+       
+
+        int soundEffect = PlayerPrefs.GetInt("Sound");
+        if (soundEffect == 1)
+        {
+            // plays the card deal sound effect
+            cardDeal.Play();
+        }
 
         blackJackCheatSheet blackJackCheatSheet = randomObject.AddComponent<blackJackCheatSheet>();
 
