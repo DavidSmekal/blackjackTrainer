@@ -4,8 +4,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using UnityEngine.Analytics;
 using UnityEngine.Advertisements;
+using UnityEngine.Networking;
 
 public class randomCards : MonoBehaviour
 {
@@ -121,8 +121,7 @@ public class randomCards : MonoBehaviour
     //this will hold the textbox of the percentage
     public Text percentageText;
 
-    // this will hold the buy coins modal
-    public GameObject buyCoinsModal;
+
 
     //method to shuffle the array
     private int[] shuffleArray(int[] deck)
@@ -143,8 +142,7 @@ public class randomCards : MonoBehaviour
     {
         // this hides the modal pop up
         modalWindow.SetActive(false);
-        buyCoinsModal.SetActive(false);
-
+ 
         //player card 1
         pcards1 = playerCard1.GetComponent<Cards>();
         //player card 2
@@ -164,6 +162,8 @@ public class randomCards : MonoBehaviour
         //shows the coins up at the top
         coinCount = PlayerPrefs.GetInt("Coins");
         countText.text = coinCount.ToString();
+
+
     }
     void Start()
     {
@@ -367,15 +367,7 @@ public class randomCards : MonoBehaviour
     // gets called when the button is pressed in UI
     void hit()
     {
-        Analytics.CustomEvent("TimedGameOver", new Dictionary<string, object>
-        {
-          //  {"username", PlayerPrefs.GetString("Username")},
-            {"correct", "worked" }
 
-        });
-      
-
-     
 
         playersMove.text = "You hit!";
         correctAnswerNumber = 1;
@@ -476,6 +468,7 @@ public class randomCards : MonoBehaviour
             correct++;
             percentageCorrect(correct, incorrect);
 
+            PlayerPrefs.SetInt("temp_correct", correct);
 
         }
         else
@@ -490,6 +483,8 @@ public class randomCards : MonoBehaviour
             //increment incorrect int, and send it to method to update on screen
             incorrect++;
             percentageCorrect(correct, incorrect);
+
+            PlayerPrefs.SetInt("temp_incorrect", incorrect);
         }
 
         //TODO: pass in 3 ints, card1 etc. to show the user what hand they just played in the feedback box
@@ -525,6 +520,8 @@ public class randomCards : MonoBehaviour
         if (streakCount > highestStreakCount)
         {
             highestStreakCount = streakCount;
+
+            PlayerPrefs.SetInt("temp_higheststreakcount", highestStreakCount);
         }
 
 
@@ -551,56 +548,7 @@ public class randomCards : MonoBehaviour
 
     }
 
-    // send analytics to unity if the user presses the whole button (to quit the game)
-    // TODO: update users overall stats here
-    public void homeScreen()
-    {
-        Analytics.CustomEvent("TimedGameOver", new Dictionary<string, object>
-        {
-          //  {"username", PlayerPrefs.GetString("Username")},
-            {"correct", correct },
-            {"incorrect", incorrect },
-            {"highestStreak", highestStreakCount }
 
-        });
-    }
 
-    //sends analytics to unity if the user quit out of the game completely
-    // TODO: update users overall stats here
-    void OnApplicationQuit()
-    {
-
-    }
-
-    public void openBuyCoins()
-    {
-        buyCoinsModal.SetActive(true);
-    }
-
-    public void closeBuyCoins()
-    {
-        buyCoinsModal.SetActive(false);
-    }
-
-    // user watches an ad when they press the button
-    public void watchAd()
-    {
-        ShowOptions options = new ShowOptions();
-        options.resultCallback = HandleShowResult;
-
-        Advertisement.Show("rewardedVideo", options);
-    }
-
-    // handles the results after user watched an add
-    void HandleShowResult(ShowResult result)
-    {
-        if (result == ShowResult.Finished)
-        {
-            coinCount = PlayerPrefs.GetInt("Coins");
-            coinCount = coinCount + 500;
-            PlayerPrefs.SetInt("Coins", coinCount);
-
-        }
-
-    }
+   
 }

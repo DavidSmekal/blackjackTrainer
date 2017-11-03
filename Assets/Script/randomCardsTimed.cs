@@ -6,7 +6,6 @@ using System;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.Networking;
-using UnityEngine.Analytics;
 
 public class randomCardsTimed : MonoBehaviour
 {
@@ -683,7 +682,7 @@ public class randomCardsTimed : MonoBehaviour
         form.AddField("deviceId", uniqueSystemIde);
 
 
-        UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/insert_score.php", form);
+        UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/insert_timedscore.php", form);
         yield return www.Send();
 
         if (www.isNetworkError || www.isHttpError)
@@ -697,17 +696,6 @@ public class randomCardsTimed : MonoBehaviour
 
 
         }
-
-        //this will upload the stats to unity's Analytics so I can view them online
-        Analytics.CustomEvent("TimedGameOver", new Dictionary<string, object>
-        {
-          //  {"username", PlayerPrefs.GetString("Username")},
-            {"count", timedScore }
-         //   {"correct", correct },
-        //    {"incorrect", incorrect },
-          //  {"highestStreak", highestStreakCount }
-
-        });
     
 
       

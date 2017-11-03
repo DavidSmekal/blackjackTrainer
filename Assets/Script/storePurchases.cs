@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 
@@ -168,24 +170,35 @@ public class storePurchases : MonoBehaviour
         if (x == "1")
         {
 
-            PlayerPrefs.SetInt("Coins", (PlayerPrefs.GetInt("Coins") - 1000));
+            PlayerPrefs.SetInt("Coins", (PlayerPrefs.GetInt("Coins") - 1000));       
+            // this sends to the database the item string and the cost of the item
+            StartCoroutine(Upload("green", 1000));
 
         }
         if (x == "2")
         {
             PlayerPrefs.SetInt("Coins", (PlayerPrefs.GetInt("Coins") - 10000));
+            // this sends to the database the item string and the cost of the item        
+            StartCoroutine(Upload("blue", 10000));
+
         }
         if (x == "3")
         {
             PlayerPrefs.SetInt("Coins", (PlayerPrefs.GetInt("Coins") - 30000));
+            // this sends to the database the item string and the cost of the item
+            StartCoroutine(Upload("brick", 30000));
         }
         if (x == "4")
         {
             PlayerPrefs.SetInt("Coins", (PlayerPrefs.GetInt("Coins") - 50000));
+            // this sends to the database the item string and the cost of the item
+            StartCoroutine(Upload("grass", 50000));
         }
         if (x == "5")
         {
             PlayerPrefs.SetInt("Coins", (PlayerPrefs.GetInt("Coins") - 100000));
+            // this sends to the database the item string and the cost of the item
+            StartCoroutine(Upload("sky", 100000));
         }
 
 
@@ -214,6 +227,41 @@ public class storePurchases : MonoBehaviour
 
     }
 
+    // this function uploads to the database the item that was purchased
+    IEnumerator Upload(string item_purchased, int cost)
+    {
+
+        String uniqueSystemIde = SystemInfo.deviceUniqueIdentifier;
+
+        WWWForm form = new WWWForm();
+
+        // if the user doesn't exist, it will be uploaded anyway and it will be blank in the database
+        // The deviceId will still be attached so a username isn't needed
+
+        form.AddField("username", PlayerPrefs.GetString("Username"));
+        form.AddField("deviceId", uniqueSystemIde);
+        form.AddField("purchaseString", item_purchased);
+        form.AddField("cost", cost);
+
+       
+
+        UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/store_purchases.php", form);
+        yield return www.Send();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+
+        }
+        else
+        {
+            Debug.Log("Form upload complete!");
+
+
+        }
+    }
+
+ 
 
 
 }
