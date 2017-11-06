@@ -25,6 +25,16 @@ public class settingsPage : MonoBehaviour
 
     public GameObject modalLeaderboard;
     public GameObject modalchangeUserName;
+    public GameObject modalLifetimeStats;
+
+    // stats text block
+    public Text username;
+    public Text coins;
+    public Text handsPlayed;
+    public Text correctHands;
+    public Text incorrectHands;
+    public Text percentage;
+    public Text highStreak;
 
     public InputField nameInputField;
     public InputField emailInputField;
@@ -61,6 +71,7 @@ public class settingsPage : MonoBehaviour
         modalWindow3.SetActive(false);
         modalLeaderboard.SetActive(false);
         modalchangeUserName.SetActive(false);
+        modalLifetimeStats.SetActive(false);
 
 
 
@@ -351,4 +362,36 @@ public class settingsPage : MonoBehaviour
 
         }
     }
+
+    public void openLifetimeStats()
+    {
+
+        int totalHands = (PlayerPrefs.GetInt("totalCorrect") + PlayerPrefs.GetInt("totalIncorrect"));
+
+        modalLifetimeStats.SetActive(true);
+        username.text = "Username: " + PlayerPrefs.GetString("Username").ToString();
+        coins.text = "Coins: " + PlayerPrefs.GetInt("Coins");
+        handsPlayed.text = "Hands played: " + totalHands.ToString();
+        correctHands.text = "Correct hands: " + PlayerPrefs.GetInt("totalCorrect");
+        incorrectHands.text = "Incorrect hands: " + PlayerPrefs.GetInt("totalIncorrect");
+        percentage.text = "Percentage correct: " + calculatePercentage() + "%";
+        highStreak.text = "Highest Streak: " + PlayerPrefs.GetInt("StreakCount");
+        
+
+    }
+
+    private decimal calculatePercentage()
+    {
+
+        int correct = PlayerPrefs.GetInt("totalCorrect");
+        int incorrect = PlayerPrefs.GetInt("totalIncorrect");
+
+        int total = correct + incorrect;
+        decimal percent = (correct / (decimal)total) * 100;
+
+        decimal percentageRounded = decimal.Round(percent, 1, MidpointRounding.AwayFromZero);
+        return percentageRounded;
+
+    }
+
 }

@@ -466,6 +466,7 @@ public class randomCards : MonoBehaviour
 
             //increment correct int, and send it to method to update on screen
             correct++;
+            PlayerPrefs.SetInt("totalCorrect", PlayerPrefs.GetInt("totalCorrect") + 1);
             percentageCorrect(correct, incorrect);
 
             PlayerPrefs.SetInt("temp_correct", correct);
@@ -482,6 +483,7 @@ public class randomCards : MonoBehaviour
 
             //increment incorrect int, and send it to method to update on screen
             incorrect++;
+            PlayerPrefs.SetInt("totalIncorrect", PlayerPrefs.GetInt("totalIncorrect") + 1);
             percentageCorrect(correct, incorrect);
 
             PlayerPrefs.SetInt("temp_incorrect", incorrect);
@@ -522,6 +524,12 @@ public class randomCards : MonoBehaviour
             highestStreakCount = streakCount;
 
             PlayerPrefs.SetInt("temp_higheststreakcount", highestStreakCount);
+        }
+
+        // this will keep track of user's overall highest streak - saved in playerprefs
+        if (streakCount > PlayerPrefs.GetInt("StreakCount"))
+        {
+            PlayerPrefs.SetInt("StreakCount", streakCount);
         }
 
 
