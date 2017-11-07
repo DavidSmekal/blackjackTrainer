@@ -4162,7 +4162,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &775228004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5835,6 +5835,7 @@ MonoBehaviour:
   modalFeedbackHelp: {fileID: 1177501559}
   countText: {fileID: 1554338090}
   streakCountText: {fileID: 424662591}
+  streakCountTextLeft: {fileID: 1951087809}
   correctAnswerNumber: 0
   cardDeal: {fileID: 751535418}
   playerCard1: {fileID: 1210528532}
@@ -5850,6 +5851,7 @@ MonoBehaviour:
   correctOrIncorrect: {fileID: 199889921}
   feedBackText: {fileID: 868042036}
   playersMove: {fileID: 1657360797}
+  playersMoveLeft: {fileID: 1694453096}
   skin: 
   card1: 0
   card2: 0
@@ -5861,6 +5863,7 @@ MonoBehaviour:
   correct: 0
   incorrect: 0
   percentageText: {fileID: 1438617057}
+  percentageTextLeft: {fileID: 1241267076}
   timer: {fileID: 2140903899}
   score: {fileID: 393400791}
   gameOverModal: {fileID: 835047944}

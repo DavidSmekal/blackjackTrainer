@@ -58,6 +58,8 @@ public class randomCards : MonoBehaviour
 
     //this is the streak counter text field
     public Text streakCountText;
+    // this is for the when the user selects left alignment
+    public Text streakCountTextLeft;
     //this will keep track of the streak
     private int streakCount = 0;
     //this will keep track of the highest streak count
@@ -92,6 +94,7 @@ public class randomCards : MonoBehaviour
 
     // shows what choice the player picked
     public Text playersMove;
+    public Text playersMoveLeft;
 
     // play card audio
     public AudioSource cardDeal;
@@ -120,6 +123,7 @@ public class randomCards : MonoBehaviour
 
     //this will hold the textbox of the percentage
     public Text percentageText;
+    public Text percentageTextLeft;
 
 
 
@@ -370,7 +374,9 @@ public class randomCards : MonoBehaviour
 
 
         playersMove.text = "You hit!";
-        correctAnswerNumber = 1;
+        playersMoveLeft.text = "You hit!";
+
+    correctAnswerNumber = 1;
         checkAnswer(correctAnswerNumber, returned, card1, card2, card3);
         Start();
 
@@ -380,6 +386,7 @@ public class randomCards : MonoBehaviour
     {
 
         playersMove.text = "You stayed!";
+        playersMoveLeft.text = "You stayed!";
         correctAnswerNumber = 2;
         checkAnswer(correctAnswerNumber, returned, card1, card2, card3);
         Start();
@@ -389,6 +396,7 @@ public class randomCards : MonoBehaviour
     void double_()
     {
         playersMove.text = "You doubled!";
+        playersMoveLeft.text = "You doubled!";
         correctAnswerNumber = 3;
         checkAnswer(correctAnswerNumber, returned, card1, card2, card3);
 
@@ -398,6 +406,7 @@ public class randomCards : MonoBehaviour
     void split()
     {
         playersMove.text = "You split!";
+        playersMoveLeft.text = "You split!";
         correctAnswerNumber = 4;
         checkAnswer(correctAnswerNumber, returned, card1, card2, card3);
 
@@ -516,6 +525,7 @@ public class randomCards : MonoBehaviour
     void setStreakCount()
     {
         streakCountText.text = "Streak Counter: " + streakCount.ToString();
+        streakCountTextLeft.text = "Streak Counter: " + streakCount.ToString();
 
         //saves the highest streak count in the variable highestStreakCount
 
@@ -545,6 +555,7 @@ public class randomCards : MonoBehaviour
         decimal percentageRounded = decimal.Round(percent, 1, MidpointRounding.AwayFromZero);
 
         percentageText.text = "Percentage:" + correct + "/" + total + "          " + percentageRounded + "%";
+        percentageTextLeft.text = "Percentage:" + correct + "/" + total + "          " + percentageRounded + "%";
 
 
     }

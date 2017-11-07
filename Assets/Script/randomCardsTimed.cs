@@ -57,6 +57,7 @@ public class randomCardsTimed : MonoBehaviour
 
     //this is the streak counter text field
     public Text streakCountText;
+    public Text streakCountTextLeft;
     //this will keep track of the streak
     private int streakCount = 0;
     //this will keep track of the highest streak count
@@ -95,7 +96,7 @@ public class randomCardsTimed : MonoBehaviour
 
     // shows what choice the player picked
     public Text playersMove;
-
+    public Text playersMoveLeft;
 
 
     //an array for the deck of cards
@@ -121,11 +122,12 @@ public class randomCardsTimed : MonoBehaviour
 
     //this will hold the textbox of the percentage
     public Text percentageText;
+    public Text percentageTextLeft;
 
     // this stuff below will all be stuff added to this new gamemode (so I don't get confused if I have to change something later)
     ///////////////////////////////////////////////////////////////
     // 60 second timer
-    private float timeLeft = 10f;
+    private float timeLeft = 60f;
     // text to store the timer in the user interface
     public Text timer;
     //need to keep score. 
@@ -426,7 +428,10 @@ public class randomCardsTimed : MonoBehaviour
     void hit()
     {
 
+
         playersMove.text = "You hit!";
+        playersMoveLeft.text = "You hit!";
+
         correctAnswerNumber = 1;
         checkAnswer(correctAnswerNumber, returned, card1, card2, card3);
         Start();
@@ -437,6 +442,7 @@ public class randomCardsTimed : MonoBehaviour
     {
 
         playersMove.text = "You stayed!";
+        playersMoveLeft.text = "You stayed!";
         correctAnswerNumber = 2;
         checkAnswer(correctAnswerNumber, returned, card1, card2, card3);
         Start();
@@ -446,6 +452,7 @@ public class randomCardsTimed : MonoBehaviour
     void double_()
     {
         playersMove.text = "You doubled!";
+        playersMoveLeft.text = "You doubled!";
         correctAnswerNumber = 3;
         checkAnswer(correctAnswerNumber, returned, card1, card2, card3);
 
@@ -455,6 +462,7 @@ public class randomCardsTimed : MonoBehaviour
     void split()
     {
         playersMove.text = "You split!";
+        playersMoveLeft.text = "You split!";
         correctAnswerNumber = 4;
         checkAnswer(correctAnswerNumber, returned, card1, card2, card3);
 
@@ -580,6 +588,7 @@ public class randomCardsTimed : MonoBehaviour
     void setStreakCount()
     {
         streakCountText.text = "Streak Counter: " + streakCount.ToString();
+        streakCountTextLeft.text = "Streak Counter: " + streakCount.ToString();
 
         //saves the highest streak count in the variable highestStreakCount
 
@@ -612,6 +621,7 @@ public class randomCardsTimed : MonoBehaviour
         decimal percentageRounded = decimal.Round(percent, 1, MidpointRounding.AwayFromZero);
 
         percentageText.text = "Percentage:" + correct + "/" + total + "          " + percentageRounded + "%";
+        percentageTextLeft.text = "Percentage:" + correct + "/" + total + "          " + percentageRounded + "%";
 
 
     }
