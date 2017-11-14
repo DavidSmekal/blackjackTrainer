@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using UnityEngine.SceneManagement;
-using System.Collections;
-using UnityEngine.Networking;
 
-public class randomCardsTimed : MonoBehaviour
+public class tutorial : MonoBehaviour
 {
     public class CardObject
     {
@@ -15,9 +13,31 @@ public class randomCardsTimed : MonoBehaviour
         public string face { get; set; }
 
     }
+    // This is the collection of tutorial canvas's
+    public GameObject firstLevel;
+    public GameObject secondLevel;
+    public GameObject thirdLevel;
+    public GameObject fourthLevel;
+    public GameObject fifthLevel;
+    public GameObject sixthLevel;
+    public GameObject seventhLevel;
+    public GameObject eighthLevel;
+    public GameObject ninthLevel;
+    public GameObject tenthLevel;
+    public GameObject elevenLevel;
+    public GameObject twelveLevel;
+    public GameObject thirteenLevel;
+    public GameObject fourteenLevel;
+    public GameObject fifteenLevel;
+
+
+
+    public GameObject buyCoinsModal;
+
 
     // I need to store something from the gameobject. could be anything. i'll do the camera
     public GameObject randomObject;
+
 
 
     Cards pcards1;
@@ -38,8 +58,7 @@ public class randomCardsTimed : MonoBehaviour
     public GameObject helpButton;
 
 
-    //left and right gameObjects
-    public GameObject leftSide;
+
     public GameObject rightSide;
 
     storePurchases storePuchases;
@@ -57,7 +76,7 @@ public class randomCardsTimed : MonoBehaviour
 
     //this is the streak counter text field
     public Text streakCountText;
-    public Text streakCountTextLeft;
+
     //this will keep track of the streak
     private int streakCount = 0;
     //this will keep track of the highest streak count
@@ -65,10 +84,6 @@ public class randomCardsTimed : MonoBehaviour
 
     //changes a number in the button methods to see if the user is right
     public int correctAnswerNumber;
-
-
-    // play card audio
-    public AudioSource cardDeal;
 
 
     public GameObject playerCard1;
@@ -96,7 +111,10 @@ public class randomCardsTimed : MonoBehaviour
 
     // shows what choice the player picked
     public Text playersMove;
-    public Text playersMoveLeft;
+
+
+    // play card audio
+    public AudioSource cardDeal;
 
 
     //an array for the deck of cards
@@ -122,29 +140,7 @@ public class randomCardsTimed : MonoBehaviour
 
     //this will hold the textbox of the percentage
     public Text percentageText;
-    public Text percentageTextLeft;
 
-    // this stuff below will all be stuff added to this new gamemode (so I don't get confused if I have to change something later)
-    ///////////////////////////////////////////////////////////////
-    // 60 second timer
-    private float timeLeft = 10f;
-    // text to store the timer in the user interface
-    public Text timer;
-    //need to keep score. 
-    private int timedScore = 0;
-    // text to store the score in the user interface
-    public Text score;
-    // when game is over, show a gameover modal with the player's score
-    public GameObject gameOverModal;
-    // game over modal score and percentage 
-    public Text gameOverScore;
-    public Text gameOverPercentage;
-    // boolean to stop the gameover method from calling over and over again.
-    public bool updateBool = true;
-    // modal to set username for leaderboards
-    public GameObject setNameLeaderboards;
-    //username text input
-    public InputField usernameInput;
 
 
 
@@ -167,17 +163,25 @@ public class randomCardsTimed : MonoBehaviour
     {
         // this hides the modal pop up
         modalWindow.SetActive(false);
-        gameOverModal.SetActive(false);
+        buyCoinsModal.SetActive(false);
 
-        //if username is set, it will hide username modal
-        if (PlayerPrefs.GetString("Username").Length > 2)
-        {
-            setNameLeaderboards.SetActive(false);
-        }
-        else
-        {
-            setNameLeaderboards.SetActive(true);
-        }
+        // all the tutorial canvas's will be here
+        firstLevel.SetActive(true);
+        secondLevel.SetActive(false);
+        thirdLevel.SetActive(false);
+        fourthLevel.SetActive(false);
+        fifthLevel.SetActive(false);
+        sixthLevel.SetActive(false);
+        seventhLevel.SetActive(false);
+        eighthLevel.SetActive(false);
+        ninthLevel.SetActive(false);
+        tenthLevel.SetActive(false);
+        elevenLevel.SetActive(false);
+        twelveLevel.SetActive(false);
+        thirteenLevel.SetActive(false);
+        fourteenLevel.SetActive(false);
+        fifteenLevel.SetActive(false);
+
 
         //player card 1
         pcards1 = playerCard1.GetComponent<Cards>();
@@ -188,10 +192,6 @@ public class randomCardsTimed : MonoBehaviour
         //dealer card 2
         dcards2 = dealerCard2.GetComponent<Cards>();
 
-        //shows the coins up at the top
-        coinCount = PlayerPrefs.GetInt("Coins");
-        countText.text = coinCount.ToString();
-
 
 
 
@@ -199,32 +199,14 @@ public class randomCardsTimed : MonoBehaviour
 
     void Update()
     {
-        // if the user hasn't typed in a username yet, the timer will be paused
-        if (setNameLeaderboards.activeInHierarchy == false)
-        {
-            // this decrements the timer
-            timeLeft -= Time.deltaTime;
-            int intTimeLeft = Mathf.RoundToInt(timeLeft);
+        //shows the coins up at the top
+        coinCount = PlayerPrefs.GetInt("Coins");
+        countText.text = coinCount.ToString();
 
-            timer.text = intTimeLeft.ToString();
-
-            if ((updateBool == true) && (timeLeft < 0))
-            {
-
-                // after destroy is called, it will cause an error to repeat in the console since I am
-                // am still trying to access Text. I don't think this should impact gameplay, so I will
-                // leave it be.
-                Destroy(timer);
-                GameOver();
-                updateBool = false;
-
-            }
-        }
 
     }
     void Start()
     {
-       
 
         int soundEffect = PlayerPrefs.GetInt("Sound");
         if (soundEffect == 1)
@@ -235,19 +217,6 @@ public class randomCardsTimed : MonoBehaviour
 
         blackJackCheatSheet blackJackCheatSheet = randomObject.AddComponent<blackJackCheatSheet>();
 
-        //this will look in the player preference to find the user's position of UI
-        int position = PlayerPrefs.GetInt("Position");
-        if (position == 0)
-        {
-            leftSide.SetActive(false);
-            rightSide.SetActive(true);
-        }
-        else if (position == 1)
-        {
-
-            leftSide.SetActive(true);
-            rightSide.SetActive(false);
-        }
 
 
 
@@ -313,37 +282,27 @@ public class randomCardsTimed : MonoBehaviour
 
 
 
-        //populating the deck array
-        for (int i = 0; i < 51; i++)
-        {
-            cardArray[i] = i;
-
-        }
-
-        //passing the cardArray to the shuffle method to get a shuffled array
-        int[] shuffledArray = shuffleArray(cardArray);
-
 
         //player card 1
-        card1 = shuffledArray[0];
+        card1 = presetCardOne(0);
         pcards1.cardIndex = card1;
         pcards1.showFace();
 
 
         //player card 2
-        card2 = shuffledArray[2];
+        card2 = presetCardTwo(1);
         pcards2.cardIndex = card2;
         pcards2.showFace();
 
 
         //dealer card 1
-        card3 = shuffledArray[1];
+        card3 = presetCardThree(2);
         dcards1.cardIndex = card3;
         dcards1.showFace();
 
 
         //dealer card 2
-        card4 = shuffledArray[3];
+        card4 = presetCardFour(3);
         dcards2.cardIndex = card4;
         dcards2.showBack(skin);
 
@@ -354,14 +313,12 @@ public class randomCardsTimed : MonoBehaviour
         SetDealerCountText(haha[card3]);
 
         //determines if the user should hit, stand, double or split
-        returned = blackJackCheatSheet.blackJackCheatSheetMethodTimed(haha[card1], haha[card2], haha[card3]);
+        returned = blackJackCheatSheet.blackJackCheatSheetMethodTutorial(haha[card1], haha[card2], haha[card3]);
 
         //getting the faces of the cards so it can show up in the modal feedback box
         card1Face = haha[card1].face;
         card2Face = haha[card2].face;
         card3Face = haha[card3].face;
-
- 
 
 
     }
@@ -430,11 +387,14 @@ public class randomCardsTimed : MonoBehaviour
 
 
         playersMove.text = "You hit!";
-        playersMoveLeft.text = "You hit!";
+    
 
         correctAnswerNumber = 1;
         checkAnswer(correctAnswerNumber, returned, card1, card2, card3);
-        Start();
+        updateCards(50, 46, 28, 5);
+
+        fourthLevel.SetActive(false);
+        fifthLevel.SetActive(true);
 
     }
 
@@ -442,31 +402,38 @@ public class randomCardsTimed : MonoBehaviour
     {
 
         playersMove.text = "You stayed!";
-        playersMoveLeft.text = "You stayed!";
+       
         correctAnswerNumber = 2;
         checkAnswer(correctAnswerNumber, returned, card1, card2, card3);
-        Start();
+        updateCards(34, 6, 14, 25);
+
+        seventhLevel.SetActive(false);
+        eighthLevel.SetActive(true);
 
     }
 
     void double_()
     {
         playersMove.text = "You doubled!";
-        playersMoveLeft.text = "You doubled!";
+      
         correctAnswerNumber = 3;
         checkAnswer(correctAnswerNumber, returned, card1, card2, card3);
 
-        Start();
+        updateCards(30, 31, 33, 3);
+        eighthLevel.SetActive(false);
+        ninthLevel.SetActive(true);
     }
 
     void split()
     {
         playersMove.text = "You split!";
-        playersMoveLeft.text = "You split!";
+      
         correctAnswerNumber = 4;
         checkAnswer(correctAnswerNumber, returned, card1, card2, card3);
 
-        Start();
+        updateCards(45, 3, 44, 3);
+        ninthLevel.SetActive(false);
+        tenthLevel.SetActive(true);
     }
 
     // if the user presses this button, a module feedback box will appear
@@ -508,6 +475,9 @@ public class randomCardsTimed : MonoBehaviour
         streakCount = 0;
         setStreakCount();
 
+        tenthLevel.SetActive(false);
+        elevenLevel.SetActive(true);
+
     }
 
 
@@ -534,10 +504,7 @@ public class randomCardsTimed : MonoBehaviour
             PlayerPrefs.SetInt("totalCorrect", PlayerPrefs.GetInt("totalCorrect") + 1);
             percentageCorrect(correct, incorrect);
 
-            //this will increment the user's score
-            timedScore++;
-            setTimedScore();
-
+            PlayerPrefs.SetInt("temp_correct", correct);
 
         }
         else
@@ -554,9 +521,7 @@ public class randomCardsTimed : MonoBehaviour
             PlayerPrefs.SetInt("totalIncorrect", PlayerPrefs.GetInt("totalIncorrect") + 1);
             percentageCorrect(correct, incorrect);
 
-            //this will decrement the user's score
-            timedScore--;
-            setTimedScore();
+            PlayerPrefs.SetInt("temp_incorrect", incorrect);
         }
 
         //TODO: pass in 3 ints, card1 etc. to show the user what hand they just played in the feedback box
@@ -572,8 +537,6 @@ public class randomCardsTimed : MonoBehaviour
 
         fdcards1.cardIndex = card3;
         fdcards1.showFace();
-
-
     }
 
     // prints out the amount of coins the user has
@@ -588,28 +551,25 @@ public class randomCardsTimed : MonoBehaviour
     void setStreakCount()
     {
         streakCountText.text = "Streak Counter: " + streakCount.ToString();
-        streakCountTextLeft.text = "Streak Counter: " + streakCount.ToString();
+
 
         //saves the highest streak count in the variable highestStreakCount
 
         if (streakCount > highestStreakCount)
         {
             highestStreakCount = streakCount;
-        }
-        // this will keep track of user's overall highest streak - saved in playerprefs
 
+            PlayerPrefs.SetInt("temp_higheststreakcount", highestStreakCount);
+        }
+
+        // this will keep track of user's overall highest streak - saved in playerprefs
         if (streakCount > PlayerPrefs.GetInt("StreakCount"))
         {
             PlayerPrefs.SetInt("StreakCount", streakCount);
         }
-      
-       
 
-    }
 
-    void setTimedScore()
-    {
-        score.text = timedScore.ToString();
+
     }
 
     public void percentageCorrect(int correct, int incorrect)
@@ -621,7 +581,7 @@ public class randomCardsTimed : MonoBehaviour
         decimal percentageRounded = decimal.Round(percent, 1, MidpointRounding.AwayFromZero);
 
         percentageText.text = "Percentage:" + correct + "/" + total + "          " + percentageRounded + "%";
-        percentageTextLeft.text = "Percentage:" + correct + "/" + total + "          " + percentageRounded + "%";
+     
 
 
     }
@@ -630,117 +590,197 @@ public class randomCardsTimed : MonoBehaviour
     public void closeModal()
     {
         modalWindow.SetActive(false);
+        elevenLevel.SetActive(false);
+        twelveLevel.SetActive(true);
 
     }
 
-    public void GameOver()
+    public void secondTutorial()
     {
-        gameOverModal.SetActive(true);
 
-        int total = correct + incorrect;
-        decimal percent = (correct / (decimal)total) * 100;
-
-        decimal percentageRounded = decimal.Round(percent, 1, MidpointRounding.AwayFromZero);
-        gameOverPercentage.text = "Percentage: " + correct + "/" + total + "          " + percentageRounded + "%";
-
-        gameOverScore.text = "Score: " + timedScore;
-
-        StartCoroutine(Upload2());
+        firstLevel.SetActive(false);
+        secondLevel.SetActive(true);
+        updateCards(50, 6, 28, 25);
 
 
     }
-
-    // this will create a new username
-    IEnumerator Upload()
+    public void thirdTutorial()
     {
-        WWWForm form = new WWWForm();
-
-        // gets the users unique deviceId
-        String uniqueSystemIde = SystemInfo.deviceUniqueIdentifier;
+        secondLevel.SetActive(false);
+        thirdLevel.SetActive(true);
 
 
-   
-        form.AddField("username", PlayerPrefs.GetString("Username"));
-        form.AddField("deviceId", uniqueSystemIde);
+    }
+    public void fourthTutorial()
+    {
+        thirdLevel.SetActive(false);
+        fourthLevel.SetActive(true);
 
-        PlayerPrefs.SetString("Username", usernameInput.text);
-
-
-
-        UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/insert_user.php", form);
-        yield return www.Send();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-      
-        }
-        else
-        {
-            Debug.Log("Form upload complete!");
-    
-
-        }
     }
 
-    // this will update the user's score
-    IEnumerator Upload2()
-    {
-        // gets the users unique deviceId
-        String uniqueSystemIde = SystemInfo.deviceUniqueIdentifier;
 
-        WWWForm form = new WWWForm();
+    public void sixthTutorial()
+    {
+        fifthLevel.SetActive(false);
+        sixthLevel.SetActive(true);
+    }
+
+    public void seventhTutorial()
+    {
+        sixthLevel.SetActive(false);
+        seventhLevel.SetActive(true);
+    }
+
   
-
-        form.AddField("count", timedScore);
-        form.AddField("correct", correct);
-        form.AddField("incorrect", incorrect);
-        form.AddField("highestStreak", highestStreakCount);
-        form.AddField("username", PlayerPrefs.GetString("Username"));
-        form.AddField("deviceId", uniqueSystemIde);
-
-
-        UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/insert_timedscore.php", form);
-        yield return www.Send();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.Log(www.error);
-
-        }
-        else
-        {
-            Debug.Log("Form upload complete!");
-
-
-        }
-    
-
-      
-    }
-
-    public void PlayAgain()
-    {
-        SceneManager.LoadScene("Timed Challenge");
-    }
-    
-    //this will close the set username modal. At the the same time, it will input the username into playerprefs.
-    public void closeAndUpdateUsername()
+    public void thirteenTutorial()
     {
 
-
-        PlayerPrefs.SetString("Username", usernameInput.text);
-
-        if (PlayerPrefs.GetString("Username").Length > 2)
-        {
-            setNameLeaderboards.SetActive(false);
-            StartCoroutine(Upload());
-        }
-
-        Debug.Log("From player prefs: " + PlayerPrefs.GetString("Username"));
-
-        
+        twelveLevel.SetActive(false);
+        thirteenLevel.SetActive(true);
     }
 
-    
+  
+    public void openBuyCoins()
+    {
+        buyCoinsModal.SetActive(true);
+        thirteenLevel.SetActive(false);
+        fourteenLevel.SetActive(true);
+    }
+    public void closeBuyCoins()
+    {
+        fourteenLevel.SetActive(false);
+        fifteenLevel.SetActive(true);
+        buyCoinsModal.SetActive(false);
+    }
+
+
+    public int presetCardOne(int number)
+    {
+        return number;
+    }
+
+    public int presetCardTwo(int number)
+    {
+        return number;
+    }
+    public int presetCardThree(int number)
+    {
+        return number;
+    }
+
+    public int presetCardFour(int number)
+    {
+        return number;
+    }
+
+    public void updateCards(int first, int second, int third, int forth)
+    {
+
+        blackJackCheatSheet blackJackCheatSheet = randomObject.AddComponent<blackJackCheatSheet>();
+
+
+
+
+        //finds the skin stored in player preference and uses it to set the cardback
+        skin = PlayerPrefs.GetString("Skin");
+
+        // type. 1 = total. 2 = contains ace. 3 = pair.
+        List<CardObject> haha = new List<CardObject>
+        {
+            new CardObject() {value = 1, face = "Ace"},
+            new CardObject() {value = 1, face = "Ace"},
+            new CardObject() {value = 1, face = "Ace"},
+            new CardObject() {value = 1, face = "Ace"},
+            new CardObject() {value = 2, face = "2"},
+            new CardObject() {value = 2, face = "2"},
+            new CardObject() {value = 2, face = "2"},
+            new CardObject() {value = 2, face = "2"},
+            new CardObject() {value = 3, face = "3"},
+            new CardObject() {value = 3, face = "3"},
+            new CardObject() {value = 3, face = "3"},
+            new CardObject() {value = 3, face = "3"},
+            new CardObject() {value = 4, face = "4"},
+            new CardObject() {value = 4, face = "4"},
+            new CardObject() {value = 4, face = "4"},
+            new CardObject() {value = 4, face = "4"},
+            new CardObject() {value = 5, face = "5"},
+            new CardObject() {value = 5, face = "5"},
+            new CardObject() {value = 5, face = "5"},
+            new CardObject() {value = 5, face = "5"},
+            new CardObject() {value = 6, face = "6"},
+            new CardObject() {value = 6, face = "6"},
+            new CardObject() {value = 6, face = "6"},
+            new CardObject() {value = 6, face = "6"},
+            new CardObject() {value = 7, face = "7"},
+            new CardObject() {value = 7, face = "7"},
+            new CardObject() {value = 7, face = "7"},
+            new CardObject() {value = 7, face = "7"},
+            new CardObject() {value = 8, face = "8"},
+            new CardObject() {value = 8, face = "8"},
+            new CardObject() {value = 8, face = "8"},
+            new CardObject() {value = 8, face = "8"},
+            new CardObject() {value = 9, face = "9"},
+            new CardObject() {value = 9, face = "9"},
+            new CardObject() {value = 9, face = "9"},
+            new CardObject() {value = 9, face = "9"},
+            new CardObject() {value = 10, face = "10"},
+            new CardObject() {value = 10, face = "10"},
+            new CardObject() {value = 10, face = "10"},
+            new CardObject() {value = 10, face = "10"},
+            new CardObject() {value = 10, face = "Jack"},
+            new CardObject() {value = 10, face = "Jack"},
+            new CardObject() {value = 10, face = "Jack"},
+            new CardObject() {value = 10, face = "Jack"},
+            new CardObject() {value = 10, face = "Queen"},
+            new CardObject() {value = 10, face = "Queen"},
+            new CardObject() {value = 10, face = "Queen"},
+            new CardObject() {value = 10, face = "Queen"},
+            new CardObject() {value = 10, face = "King"},
+            new CardObject() {value = 10, face = "King"},
+            new CardObject() {value = 10, face = "King"},
+            new CardObject() {value = 10, face = "King"},
+        };
+
+
+
+
+        //player card 1
+        card1 = first;
+        pcards1.cardIndex = card1;
+        pcards1.showFace();
+
+
+        //player card 2
+        card2 = second;
+        pcards2.cardIndex = card2;
+        pcards2.showFace();
+
+
+        //dealer card 1
+        card3 = third;
+        dcards1.cardIndex = card3;
+        dcards1.showFace();
+
+
+        //dealer card 2
+        card4 = forth;
+        dcards2.cardIndex = card4;
+        dcards2.showBack(skin);
+
+
+
+        //this will show the card totals on the UI
+        SetPlayerCountText(haha[card1], haha[card2]);
+        SetDealerCountText(haha[card3]);
+
+        //determines if the user should hit, stand, double or split
+        returned = blackJackCheatSheet.blackJackCheatSheetMethodTutorial(haha[card1], haha[card2], haha[card3]);
+
+        //getting the faces of the cards so it can show up in the modal feedback box
+        card1Face = haha[card1].face;
+        card2Face = haha[card2].face;
+        card3Face = haha[card3].face;
+
+    }
 }
+

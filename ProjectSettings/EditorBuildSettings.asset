@@ -29,3 +29,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Main Menu/Scenes/Game Mode.unity
     guid: cbb95e45390759e409bdf0c14d1adf32
+  - enabled: 1
+    path: Assets/Main Menu/Scenes/Tutorial.unity
+    guid: 27e0b66f01529d644a0c4e1f77d39094
