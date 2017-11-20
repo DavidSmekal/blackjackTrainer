@@ -58,6 +58,22 @@ public class settingsPage : MonoBehaviour
     public InputField newUsername;
 
 
+    public Button buttonAlignmentLeft;
+    public Button buttonAlignmentRight;
+    public Button buttonMusicLeft;
+    public Button buttonMusicRight;
+    public Button buttonSoundLeft;
+    public Button buttonSoundRight;
+
+    public Sprite selectedSetting;
+    public Sprite notSelectedSetting;
+
+  //  SpriteRenderer spriteRenderer;
+
+ //   public GameObject lefty;
+
+
+
     public void Start()
     {
         // this makes it so I can fade the checkmark multiple times
@@ -74,6 +90,49 @@ public class settingsPage : MonoBehaviour
         modalLifetimeStats.SetActive(false);
 
 
+  
+
+       
+    }
+
+    public void Update()
+    {
+        // this changes the colour of the button to the one that is selected
+
+        if (PlayerPrefs.GetInt("Position") == 1)
+        {
+            buttonAlignmentLeft.image.sprite = selectedSetting;
+            buttonAlignmentRight.image.sprite = notSelectedSetting;
+        }
+        else if (PlayerPrefs.GetInt("Position") == 0)
+        {
+            buttonAlignmentRight.image.sprite = selectedSetting;
+            buttonAlignmentLeft.image.sprite = notSelectedSetting;
+        }
+
+
+        if (PlayerPrefs.GetInt("Music") == 1)
+        {
+            buttonMusicLeft.image.sprite = selectedSetting;
+            buttonMusicRight.image.sprite = notSelectedSetting;
+        }
+        else if (PlayerPrefs.GetInt("Music") == 0)
+        {
+            buttonMusicRight.image.sprite = selectedSetting;
+            buttonMusicLeft.image.sprite = notSelectedSetting;
+        }
+
+
+        if (PlayerPrefs.GetInt("Sound") == 1)
+        {
+            buttonSoundLeft.image.sprite = selectedSetting;
+            buttonSoundRight.image.sprite = notSelectedSetting;
+        }
+        else if (PlayerPrefs.GetInt("Sound") == 0)
+        {
+            buttonSoundRight.image.sprite = selectedSetting;
+            buttonSoundLeft.image.sprite = notSelectedSetting;
+        }
 
     }
 
@@ -107,13 +166,15 @@ public class settingsPage : MonoBehaviour
     // action to do when pressing left button
     public void pressLeftButton()
     {
-        PlayerPrefs.SetInt("Position", 1);
+        PlayerPrefs.SetInt("Position", 1); 
 
         // this makes it so I can fade the checkmark multiple times
         checkMarkConfirmation.canvasRenderer.SetAlpha(1f);
 
         // this makes the checkmark fade
         checkMarkConfirmation.CrossFadeAlpha(0.0f, 1.0f, true);
+
+  
 
 
     }
@@ -128,6 +189,8 @@ public class settingsPage : MonoBehaviour
 
         // this makes the checkmark fade
         checkMarkConfirmation.CrossFadeAlpha(0.0f, 1.0f, false);
+
+        
     }
 
 

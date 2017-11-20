@@ -73,18 +73,22 @@ public class storePurchases : MonoBehaviour
         {
             purchaseButton1.GetComponent<Button>().interactable = false;
         }
+  
         if (coinCount < 10000)
         {
             purchaseButton2.GetComponent<Button>().interactable = false;
         }
+       
         if (coinCount < 30000)
         {
             purchaseButton3.GetComponent<Button>().interactable = false;
         }
+       
         if (coinCount < 50000)
         {
             purchaseButton4.GetComponent<Button>().interactable = false;
         }
+      
         if (coinCount < 100000)
         {
             purchaseButton5.GetComponent<Button>().interactable = false;

@@ -406,7 +406,7 @@ public class randomCardsTimed : MonoBehaviour
         }
         else if (feedbackInt == 2)
         {
-            feedBackText.text = "You should stay";
+            feedBackText.text = "You should stand";
 
         }
         else if (feedbackInt == 3)
@@ -487,7 +487,7 @@ public class randomCardsTimed : MonoBehaviour
         }
         else if (returned == 2)
         {
-            modalFeedbackHelp.text = "If you have '" + card2Face + ", " + card1Face + "' and the dealer has '" + card3Face + "', you should stay";
+            modalFeedbackHelp.text = "If you have '" + card2Face + ", " + card1Face + "' and the dealer has '" + card3Face + "', you should stand";
 
         }
         else if (returned == 3)
@@ -620,8 +620,8 @@ public class randomCardsTimed : MonoBehaviour
 
         decimal percentageRounded = decimal.Round(percent, 1, MidpointRounding.AwayFromZero);
 
-        percentageText.text = "Percentage:" + correct + "/" + total + "          " + percentageRounded + "%";
-        percentageTextLeft.text = "Percentage:" + correct + "/" + total + "          " + percentageRounded + "%";
+        percentageText.text = "Percent:" + correct + "/" + total + "          " + percentageRounded + "%";
+        percentageTextLeft.text = "Percent:" + correct + "/" + total + "          " + percentageRounded + "%";
 
 
     }

@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: Assets/Main Menu/Scenes/How to Play.unity
     guid: 439300e30e7dc7942b58c6a9d4b57305
   - enabled: 1
-    path: Assets/Main Menu/Scenes/Game Rules.unity
+    path: Assets/Main Menu/Scenes/Card Counting Rules.unity
     guid: 402a687d8af94d24a87e86d103bd7186
   - enabled: 1
     path: Assets/Main Menu/Scenes/Timed Challenge.unity
@@ -32,3 +32,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Main Menu/Scenes/Tutorial.unity
     guid: 27e0b66f01529d644a0c4e1f77d39094
+  - enabled: 1
+    path: Assets/Main Menu/Scenes/Card Counting.unity
+    guid: 449f577793f6b1c40a612ea665cb246b
+  - enabled: 1
+    path: Assets/Main Menu/Scenes/Game Rules.unity
+    guid: e3db15027773ee3418a6c5ae388e8708

@@ -20,43 +20,50 @@ public class cardCounting :  MonoBehaviour {
     Cards pcards2;
     Cards dcards1;
     Cards dcards2;
-  //  Cards p2cards1;
- //   Cards p2cards2;
+
+    //this will hold the running count object that will be hidden of a user presses a button
+    public GameObject runningCountWindow;
+
+    public GameObject hideButton;
+
 
 
     public GameObject playerCard1;
     public GameObject playerCard2;
     public GameObject dealerCard1;
     public GameObject dealerCard2;
-    //  public GameObject player2Card1;
-    //  public GameObject player2Card2;
+
+    public GameObject gameOver;
+    public Text actualRunningCount;
+    public Text myRunningCount;
+
 
     public Text playersCount;
     private int countInt = 0;
 
+    private int arraySum = 0;
+
     // the running total in the whole game
-    int cardsPoppedCount = 0;
     public Text runningCount;
 
   
-
-
-    //will have the skin name in here
-    public string skin;
 
     public int card1;
     public int card2;
     public int card3;
     public int card4;
-  //  public int card5;
-  //  public int card6;
+
 
 
     public string card1Face;
     public string card2Face;
     public string card3Face;
 
-  
+
+    public int coinCount;
+    public Text countText;
+
+
 
     private static System.Random rng = new System.Random();
 
@@ -86,8 +93,7 @@ public class cardCounting :  MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        //finds the skin stored in player preference and uses it to set the cardback
-        skin = PlayerPrefs.GetString("Skin");
+        hideButton.SetActive(true);
 
         List<CardObject> haha = new List<CardObject>
         {
@@ -154,11 +160,6 @@ public class cardCounting :  MonoBehaviour {
 
 
 
-        
-
-        
-   
-
 
         //TODO: need to reorganize the order these are dealt in
         //player card 1
@@ -186,17 +187,8 @@ public class cardCounting :  MonoBehaviour {
         cardsUsed.Add(Deck.Peek().cardCountValue);
         card4 = Deck.Pop().card;
         dcards2.cardIndex = card4;
-        dcards2.showBack(skin);
+        dcards2.showFace();
 
-        //player2 card 1
-        //    card5 = Deck.Pop().card;
-        //    p2cards1.cardIndex = card5;
-        //    p2cards1.showFace();
-
-        //player2 card 1
-        //    card6 = Deck.Pop().card;
-        //     p2cards2.cardIndex = card6;
-        //      p2cards2.showFace();
 
        
 
@@ -204,7 +196,8 @@ public class cardCounting :  MonoBehaviour {
 
     void Awake()
     {
-      
+
+        gameOver.SetActive(false);
 
         //player card 1
         pcards1 = playerCard1.GetComponent<Cards>();
@@ -214,10 +207,7 @@ public class cardCounting :  MonoBehaviour {
         dcards1 = dealerCard1.GetComponent<Cards>();
         //dealer card 2
         dcards2 = dealerCard2.GetComponent<Cards>();
-        //player2 card 1
-    //    p2cards1 = player2Card1.GetComponent<Cards>();
-        //player2 card 2
-    //   p2cards2 = player2Card2.GetComponent<Cards>();
+
 
 
 
@@ -230,11 +220,40 @@ public class cardCounting :  MonoBehaviour {
         // shows the player's +/- count
         playersCount.text = countInt.ToString();
 
+        //shows the coins up at the top
+        coinCount = PlayerPrefs.GetInt("Coins");
+        countText.text = coinCount.ToString();
+
 
     }
 
     public void updateCards()
     {
+
+      
+        
+
+        
+        arraySum = cardsUsed.Sum();
+        // showing the total running total on the screen
+        runningCount.text = arraySum.ToString();
+
+        // when pressing the enter button, it checks if the answer is correct or not
+        // and refreshes the gameboard
+        if (countInt == arraySum)
+        {
+            // user is correct
+            confirmationCardSwitch.changeCorrect();
+            coinCount++;
+            setCoinCount();
+
+        }
+        else
+        {
+           // user is incorrect
+            confirmationCardSwitch.changeIncorrect();
+        }
+
 
         //TODO: need to reorganize the order these are dealt in
         //player card 1
@@ -262,27 +281,59 @@ public class cardCounting :  MonoBehaviour {
         cardsUsed.Add(Deck.Peek().cardCountValue);
         card4 = Deck.Pop().card;
         dcards2.cardIndex = card4;
-        dcards2.showBack(skin);
+        dcards2.showFace();
 
 
+        if (Deck.Count == 0)
+        {
 
-        //sums up all values in cardsUsed list
-        cardsPoppedCount += cardsUsed.Sum();
+            gameOver.SetActive(true);
 
-        // showing the total running total on the screen
-        runningCount.text = "Running Count: " + cardsPoppedCount.ToString();
+            actualRunningCount.text = "Actual running count: " + arraySum.ToString();
+            myRunningCount.text = "My running count: " + countInt.ToString();
+
+            // delete the running count from the left side because
+            // it will confuse the user at the gameover screen
+            runningCount.text = " ";
+
+        }
+
 
     }
 
     public void increment()
     {
         countInt++;
-        Debug.Log(cardsPoppedCount);
+        
     }
 
     public void decrement()
     {
         countInt--;
-        Debug.Log(cardsPoppedCount);
+      
     }
+
+    void setCoinCount()
+    {
+        countText.text = coinCount.ToString();
+        // Write into PlayerPreference to save the amount so when the user closes the game
+        // and reopens it, the coins will be saved.
+        PlayerPrefs.SetInt("Coins", coinCount);
+    }
+
+    public void hideCount()
+    {
+
+
+        runningCountWindow.SetActive(false);
+
+    }
+
+    public void showCount()
+    {
+        runningCountWindow.SetActive(true);
+
+    }
+
+
 }

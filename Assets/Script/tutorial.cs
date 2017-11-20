@@ -117,8 +117,6 @@ public class tutorial : MonoBehaviour
     public AudioSource cardDeal;
 
 
-    //an array for the deck of cards
-    int[] cardArray = new int[51];
 
     //will have the skin name in here
     public string skin;

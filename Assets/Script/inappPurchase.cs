@@ -6,15 +6,20 @@ public class inappPurchase : MonoBehaviour {
     public GameObject buyCoinsModal;
     private int coinCount;
 
+    public GameObject dirtyBlockModalCoins;
+
     public void Awake()
     {
         buyCoinsModal.SetActive(false);
+        dirtyBlockModalCoins.SetActive(false);
     }
 
     public void openBuyCoins()
     {
         buyCoinsModal.SetActive(true);
     }
+
+   
 
     public void closeBuyCoins()
     {
@@ -24,10 +29,9 @@ public class inappPurchase : MonoBehaviour {
     // user watches an ad when they press the button
     public void watchAd()
     {
-      //  ShowOptions options = new ShowOptions();
-     //   options.resultCallback = HandleShowResult;
 
-     //   Advertisement.Show("rewardedVideo", options);
+        // need to pop up an empty text box to block the text
+        dirtyBlockModalCoins.SetActive(true);
 
         const string RewardedPlacementId = "rewardedVideo";
 
@@ -63,5 +67,6 @@ public class inappPurchase : MonoBehaviour {
                 break;
         }
 
+        dirtyBlockModalCoins.SetActive(false);
     }
 }
