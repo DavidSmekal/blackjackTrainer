@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -74,22 +73,22 @@ public class storePurchases : MonoBehaviour
             purchaseButton1.GetComponent<Button>().interactable = false;
         }
   
-        if (coinCount < 10000)
+        if (coinCount < 5000)
         {
             purchaseButton2.GetComponent<Button>().interactable = false;
         }
        
-        if (coinCount < 30000)
+        if (coinCount < 15000)
         {
             purchaseButton3.GetComponent<Button>().interactable = false;
         }
        
-        if (coinCount < 50000)
+        if (coinCount < 25000)
         {
             purchaseButton4.GetComponent<Button>().interactable = false;
         }
       
-        if (coinCount < 100000)
+        if (coinCount < 50000)
         {
             purchaseButton5.GetComponent<Button>().interactable = false;
         }
@@ -181,28 +180,28 @@ public class storePurchases : MonoBehaviour
         }
         if (x == "2")
         {
-            PlayerPrefs.SetInt("Coins", (PlayerPrefs.GetInt("Coins") - 10000));
+            PlayerPrefs.SetInt("Coins", (PlayerPrefs.GetInt("Coins") - 5000));
             // this sends to the database the item string and the cost of the item        
-            StartCoroutine(Upload("blue", 10000));
+            StartCoroutine(Upload("blue", 5000));
 
         }
         if (x == "3")
         {
-            PlayerPrefs.SetInt("Coins", (PlayerPrefs.GetInt("Coins") - 30000));
+            PlayerPrefs.SetInt("Coins", (PlayerPrefs.GetInt("Coins") - 15000));
             // this sends to the database the item string and the cost of the item
-            StartCoroutine(Upload("brick", 30000));
+            StartCoroutine(Upload("brick", 15000));
         }
         if (x == "4")
         {
-            PlayerPrefs.SetInt("Coins", (PlayerPrefs.GetInt("Coins") - 50000));
+            PlayerPrefs.SetInt("Coins", (PlayerPrefs.GetInt("Coins") - 25000));
             // this sends to the database the item string and the cost of the item
-            StartCoroutine(Upload("grass", 50000));
+            StartCoroutine(Upload("grass", 25000));
         }
         if (x == "5")
         {
-            PlayerPrefs.SetInt("Coins", (PlayerPrefs.GetInt("Coins") - 100000));
+            PlayerPrefs.SetInt("Coins", (PlayerPrefs.GetInt("Coins") - 50000));
             // this sends to the database the item string and the cost of the item
-            StartCoroutine(Upload("sky", 100000));
+            StartCoroutine(Upload("sky", 50000));
         }
 
 

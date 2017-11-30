@@ -467,8 +467,27 @@ public class randomCards : MonoBehaviour
             confirmationCardSwitch.changeCorrect();
             printFeedback(returned);
 
+           String skin2 = PlayerPrefs.GetString("Skin"); 
+            
             //increasing the coin count
-            coinCount++;
+            if (skin2 == "Brick")
+            {
+                coinCount += 2;
+            }
+            else if(skin2 == "Grass")
+            {
+                coinCount += 3;
+            }
+            else if(skin2 == "Sky")
+            {
+                coinCount += 4;
+            }
+            else
+            {
+                coinCount++;
+            }
+
+
             setCoinCount();
             streakCount++;
             setStreakCount();

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 // this class handles changing the background to red or green
 public class confirmationCardSwitch : MonoBehaviour

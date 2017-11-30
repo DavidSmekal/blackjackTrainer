@@ -6,6 +6,7 @@ using System;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.Networking;
+using TwitterKit.Unity;
 
 public class randomCardsTimed : MonoBehaviour
 {
@@ -127,7 +128,7 @@ public class randomCardsTimed : MonoBehaviour
     // this stuff below will all be stuff added to this new gamemode (so I don't get confused if I have to change something later)
     ///////////////////////////////////////////////////////////////
     // 60 second timer
-    private float timeLeft = 10f;
+    private float timeLeft = 60f;
     // text to store the timer in the user interface
     public Text timer;
     //need to keep score. 
@@ -192,9 +193,7 @@ public class randomCardsTimed : MonoBehaviour
         coinCount = PlayerPrefs.GetInt("Coins");
         countText.text = coinCount.ToString();
 
-
-
-
+      
     }
 
     void Update()
@@ -523,8 +522,27 @@ public class randomCardsTimed : MonoBehaviour
             confirmationCardSwitch.changeCorrect();
             printFeedback(returned);
 
+            String skin2 = PlayerPrefs.GetString("Skin");
+
             //increasing the coin count
-            coinCount++;
+            if (skin2 == "Brick")
+            {
+                coinCount += 2;
+            }
+            else if (skin2 == "Grass")
+            {
+                coinCount += 3;
+            }
+            else if (skin2 == "Sky")
+            {
+                coinCount += 4;
+            }
+            else
+            {
+                coinCount++;
+            }
+
+
             setCoinCount();
             streakCount++;
             setStreakCount();
@@ -641,7 +659,7 @@ public class randomCardsTimed : MonoBehaviour
         decimal percent = (correct / (decimal)total) * 100;
 
         decimal percentageRounded = decimal.Round(percent, 1, MidpointRounding.AwayFromZero);
-        gameOverPercentage.text = "Percentage: " + correct + "/" + total + "          " + percentageRounded + "%";
+        gameOverPercentage.text = "Percent Correct: " + correct + "/" + total + " = " + percentageRounded + "%";
 
         gameOverScore.text = "Score: " + timedScore;
 
@@ -742,5 +760,49 @@ public class randomCardsTimed : MonoBehaviour
         
     }
 
-    
+    public void StartComposer(TwitterSession session, String imageUri)
+    {
+
+        Twitter.Compose(session, imageUri, "I just received a score of " + timedScore.ToString() + " from learning how to play blackjack! Try it yourself! https://play.google.com/store/apps/details?id=com.DDeveloper.BlackJackTrainer", new string[] { "#BlackjackTrainer" },
+              (string tweetId) => { UnityEngine.Debug.Log("Tweet Success, tweetId = " + tweetId); },
+              (ApiError error) => { UnityEngine.Debug.Log("Tweet Failed " + error.message); },
+              () => { Debug.Log("Compose cancelled"); }
+      );
+
+
+    }
+    public void postToTwitter()
+    {
+        Twitter.Init();
+
+        StartLogin();
+
+    }
+    public void StartLogin()
+    {
+        TwitterSession session = Twitter.Session;
+        if (session == null)
+        {
+            Twitter.LogIn(LoginComplete, LoginFailure);
+        }
+        else
+        {
+            LoginComplete(session);
+        }
+    }
+
+    public void LoginComplete(TwitterSession session)
+    {
+        // Start composer or request email
+
+        StartComposer(session, "test");
+    }
+
+    public void LoginFailure(ApiError error)
+    {
+        UnityEngine.Debug.Log("code=" + error.code + " msg=" + error.message);
+    }
+
+
+
 }

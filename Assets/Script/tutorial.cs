@@ -578,7 +578,7 @@ public class tutorial : MonoBehaviour
 
         decimal percentageRounded = decimal.Round(percent, 1, MidpointRounding.AwayFromZero);
 
-        percentageText.text = "Percentage:" + correct + "/" + total + "          " + percentageRounded + "%";
+        percentageText.text = "Percent:" + correct + "/" + total + "          " + percentageRounded + "%";
      
 
 

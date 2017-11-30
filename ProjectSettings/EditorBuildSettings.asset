@@ -38,3 +38,33 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Main Menu/Scenes/Game Rules.unity
     guid: e3db15027773ee3418a6c5ae388e8708
+  - enabled: 0
+    path: 
+    guid: 68ab940fa15e34433bff18301686b080
+  - enabled: 0
+    path: 
+    guid: 1beb7e4efae1b4e8d87bb52689540adf
+  - enabled: 0
+    path: 
+    guid: 4ac12dfde6570493291366d0ab3eb20d
+  - enabled: 0
+    path: 
+    guid: c2250c9c5cf00425384401321f8dffb4
+  - enabled: 0
+    path: 
+    guid: 190c345841ecc464e9a122f04369757e
+  - enabled: 0
+    path: 
+    guid: 7d6bb338e749741f1a68b006a0476e89
+  - enabled: 0
+    path: 
+    guid: 444ae7ddf432b457a97bfe42021075e3
+  - enabled: 0
+    path: 
+    guid: c07ff0bf6bea74c2eb681ac0cae44265
+  - enabled: 0
+    path: 
+    guid: 7c38a8c9adc9d5c4b869612e4033ead8
+  - enabled: 0
+    path: 
+    guid: 3ee189cdb21ea4bdb9d7022a0780c44c
