@@ -6,15 +6,11 @@ using UnityEngine.UI;
 using System;
 using UnityEngine.Advertisements;
 using UnityEngine.Networking;
+using CardObjects;
 
 public class randomCards : MonoBehaviour
 {
-    public class CardObject
-    {
-        public int value { get; set; }
-        public string face { get; set; }
-
-    }
+   
 
     // I need to store something from the gameobject. could be anything. i'll do the camera
     public GameObject randomObject;

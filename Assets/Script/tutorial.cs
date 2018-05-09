@@ -4,15 +4,11 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using CardObjects;
 
 public class tutorial : MonoBehaviour
 {
-    public class CardObject
-    {
-        public int value { get; set; }
-        public string face { get; set; }
-
-    }
+ 
     // This is the collection of tutorial canvas's
     public GameObject firstLevel;
     public GameObject secondLevel;
@@ -311,7 +307,7 @@ public class tutorial : MonoBehaviour
         SetDealerCountText(haha[card3]);
 
         //determines if the user should hit, stand, double or split
-        returned = blackJackCheatSheet.blackJackCheatSheetMethodTutorial(haha[card1], haha[card2], haha[card3]);
+        returned = blackJackCheatSheet.blackJackCheatSheetMethod(haha[card1], haha[card2], haha[card3]);
 
         //getting the faces of the cards so it can show up in the modal feedback box
         card1Face = haha[card1].face;
@@ -772,7 +768,7 @@ public class tutorial : MonoBehaviour
         SetDealerCountText(haha[card3]);
 
         //determines if the user should hit, stand, double or split
-        returned = blackJackCheatSheet.blackJackCheatSheetMethodTutorial(haha[card1], haha[card2], haha[card3]);
+        returned = blackJackCheatSheet.blackJackCheatSheetMethod(haha[card1], haha[card2], haha[card3]);
 
         //getting the faces of the cards so it can show up in the modal feedback box
         card1Face = haha[card1].face;

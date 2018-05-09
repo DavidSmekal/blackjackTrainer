@@ -7,15 +7,11 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.Networking;
 using TwitterKit.Unity;
+using CardObjects;
 
 public class randomCardsTimed : MonoBehaviour
 {
-    public class CardObject
-    {
-        public int value { get; set; }
-        public string face { get; set; }
-
-    }
+  
 
     // I need to store something from the gameobject. could be anything. i'll do the camera
     public GameObject randomObject;
@@ -353,7 +349,7 @@ public class randomCardsTimed : MonoBehaviour
         SetDealerCountText(haha[card3]);
 
         //determines if the user should hit, stand, double or split
-        returned = blackJackCheatSheet.blackJackCheatSheetMethodTimed(haha[card1], haha[card2], haha[card3]);
+        returned = blackJackCheatSheet.blackJackCheatSheetMethod(haha[card1], haha[card2], haha[card3]);
 
         //getting the faces of the cards so it can show up in the modal feedback box
         card1Face = haha[card1].face;
