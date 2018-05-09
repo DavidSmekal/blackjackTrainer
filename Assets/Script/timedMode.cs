@@ -1,21 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using UnityEngine.Advertisements;
+using UnityEngine.SceneManagement;
+using System.Collections;
 using UnityEngine.Networking;
+using TwitterKit.Unity;
 using CardObjects;
 
-public class randomCards : MonoBehaviour
+public class timedMode : MonoBehaviour
 {
-   
+  
 
     // I need to store something from the gameobject. could be anything. i'll do the camera
     public GameObject randomObject;
 
-    
 
     Cards pcards1;
     Cards pcards2;
@@ -54,7 +54,6 @@ public class randomCards : MonoBehaviour
 
     //this is the streak counter text field
     public Text streakCountText;
-    // this is for the when the user selects left alignment
     public Text streakCountTextLeft;
     //this will keep track of the streak
     private int streakCount = 0;
@@ -63,6 +62,10 @@ public class randomCards : MonoBehaviour
 
     //changes a number in the button methods to see if the user is right
     public int correctAnswerNumber;
+
+
+    // play card audio
+    public AudioSource cardDeal;
 
 
     public GameObject playerCard1;
@@ -92,9 +95,6 @@ public class randomCards : MonoBehaviour
     public Text playersMove;
     public Text playersMoveLeft;
 
-    // play card audio
-    public AudioSource cardDeal;
-
 
     //an array for the deck of cards
     int[] cardArray = new int[51];
@@ -121,6 +121,28 @@ public class randomCards : MonoBehaviour
     public Text percentageText;
     public Text percentageTextLeft;
 
+    // this stuff below will all be stuff added to this new gamemode (so I don't get confused if I have to change something later)
+    ///////////////////////////////////////////////////////////////
+    // 60 second timer
+    private float timeLeft = 60f;
+    // text to store the timer in the user interface
+    public Text timer;
+    //need to keep score. 
+    private int timedScore = 0;
+    // text to store the score in the user interface
+    public Text score;
+    // when game is over, show a gameover modal with the player's score
+    public GameObject gameOverModal;
+    // game over modal score and percentage 
+    public Text gameOverScore;
+    public Text gameOverPercentage;
+    // boolean to stop the gameover method from calling over and over again.
+    public bool updateBool = true;
+    // modal to set username for leaderboards
+    public GameObject setNameLeaderboards;
+    //username text input
+    public InputField usernameInput;
+
 
 
     //method to shuffle the array
@@ -142,7 +164,18 @@ public class randomCards : MonoBehaviour
     {
         // this hides the modal pop up
         modalWindow.SetActive(false);
- 
+        gameOverModal.SetActive(false);
+
+        //if username is set, it will hide username modal
+        if (PlayerPrefs.GetString("Username").Length > 2)
+        {
+            setNameLeaderboards.SetActive(false);
+        }
+        else
+        {
+            setNameLeaderboards.SetActive(true);
+        }
+
         //player card 1
         pcards1 = playerCard1.GetComponent<Cards>();
         //player card 2
@@ -152,21 +185,41 @@ public class randomCards : MonoBehaviour
         //dealer card 2
         dcards2 = dealerCard2.GetComponent<Cards>();
 
-       
-
-
-    }
-
-    void Update()
-    {
         //shows the coins up at the top
         coinCount = PlayerPrefs.GetInt("Coins");
         countText.text = coinCount.ToString();
 
+      
+    }
+
+    void Update()
+    {
+        // if the user hasn't typed in a username yet, the timer will be paused
+        if (setNameLeaderboards.activeInHierarchy == false)
+        {
+            // this decrements the timer
+            timeLeft -= Time.deltaTime;
+            int intTimeLeft = Mathf.RoundToInt(timeLeft);
+
+            timer.text = intTimeLeft.ToString();
+
+            if ((updateBool == true) && (timeLeft < 0))
+            {
+
+                // after destroy is called, it will cause an error to repeat in the console since I am
+                // am still trying to access Text. I don't think this should impact gameplay, so I will
+                // leave it be.
+                Destroy(timer);
+                GameOver();
+                updateBool = false;
+
+            }
+        }
 
     }
     void Start()
     {
+       
 
         int soundEffect = PlayerPrefs.GetInt("Sound");
         if (soundEffect == 1)
@@ -333,7 +386,7 @@ public class randomCards : MonoBehaviour
     }
 
 
-    
+
 
 
     void printFeedback(int feedbackInt)
@@ -372,7 +425,7 @@ public class randomCards : MonoBehaviour
         playersMove.text = "You hit!";
         playersMoveLeft.text = "You hit!";
 
-    correctAnswerNumber = 1;
+        correctAnswerNumber = 1;
         checkAnswer(correctAnswerNumber, returned, card1, card2, card3);
         Start();
 
@@ -463,18 +516,18 @@ public class randomCards : MonoBehaviour
             confirmationCardSwitch.changeCorrect();
             printFeedback(returned);
 
-           String skin2 = PlayerPrefs.GetString("Skin"); 
-            
+            String skin2 = PlayerPrefs.GetString("Skin");
+
             //increasing the coin count
             if (skin2 == "Brick")
             {
                 coinCount += 2;
             }
-            else if(skin2 == "Grass")
+            else if (skin2 == "Grass")
             {
                 coinCount += 3;
             }
-            else if(skin2 == "Sky")
+            else if (skin2 == "Sky")
             {
                 coinCount += 4;
             }
@@ -493,7 +546,10 @@ public class randomCards : MonoBehaviour
             PlayerPrefs.SetInt("totalCorrect", PlayerPrefs.GetInt("totalCorrect") + 1);
             percentageCorrect(correct, incorrect);
 
-            PlayerPrefs.SetInt("temp_correct", correct);
+            //this will increment the user's score
+            timedScore++;
+            setTimedScore();
+
 
         }
         else
@@ -510,7 +566,9 @@ public class randomCards : MonoBehaviour
             PlayerPrefs.SetInt("totalIncorrect", PlayerPrefs.GetInt("totalIncorrect") + 1);
             percentageCorrect(correct, incorrect);
 
-            PlayerPrefs.SetInt("temp_incorrect", incorrect);
+            //this will decrement the user's score
+            timedScore--;
+            setTimedScore();
         }
 
         //TODO: pass in 3 ints, card1 etc. to show the user what hand they just played in the feedback box
@@ -526,6 +584,8 @@ public class randomCards : MonoBehaviour
 
         fdcards1.cardIndex = card3;
         fdcards1.showFace();
+
+
     }
 
     // prints out the amount of coins the user has
@@ -547,18 +607,21 @@ public class randomCards : MonoBehaviour
         if (streakCount > highestStreakCount)
         {
             highestStreakCount = streakCount;
-
-            PlayerPrefs.SetInt("temp_higheststreakcount", highestStreakCount);
         }
-
         // this will keep track of user's overall highest streak - saved in playerprefs
+
         if (streakCount > PlayerPrefs.GetInt("StreakCount"))
         {
             PlayerPrefs.SetInt("StreakCount", streakCount);
         }
+      
+       
 
+    }
 
-
+    void setTimedScore()
+    {
+        score.text = timedScore.ToString();
     }
 
     public void percentageCorrect(int correct, int incorrect)
@@ -582,7 +645,158 @@ public class randomCards : MonoBehaviour
 
     }
 
+    public void GameOver()
+    {
+        gameOverModal.SetActive(true);
+
+        int total = correct + incorrect;
+        decimal percent = (correct / (decimal)total) * 100;
+
+        decimal percentageRounded = decimal.Round(percent, 1, MidpointRounding.AwayFromZero);
+        gameOverPercentage.text = "Percent Correct: " + correct + "/" + total + " = " + percentageRounded + "%";
+
+        gameOverScore.text = "Score: " + timedScore;
+
+        StartCoroutine(Upload2());
+
+
+    }
+
+    // this will create a new username
+    IEnumerator Upload()
+    {
+        WWWForm form = new WWWForm();
+
+        // gets the users unique deviceId
+        String uniqueSystemIde = SystemInfo.deviceUniqueIdentifier;
 
 
    
+        form.AddField("username", PlayerPrefs.GetString("Username"));
+        form.AddField("deviceId", uniqueSystemIde);
+
+        PlayerPrefs.SetString("Username", usernameInput.text);
+
+
+
+        UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/insert_user.php", form);
+        yield return www.Send();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+      
+        }
+        else
+        {
+            Debug.Log("Form upload complete!");
+    
+
+        }
+    }
+
+    // this will update the user's score
+    IEnumerator Upload2()
+    {
+        // gets the users unique deviceId
+        String uniqueSystemIde = SystemInfo.deviceUniqueIdentifier;
+
+        WWWForm form = new WWWForm();
+  
+
+        form.AddField("count", timedScore);
+        form.AddField("correct", correct);
+        form.AddField("incorrect", incorrect);
+        form.AddField("highestStreak", highestStreakCount);
+        form.AddField("username", PlayerPrefs.GetString("Username"));
+        form.AddField("deviceId", uniqueSystemIde);
+
+
+        UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/insert_timedscore.php", form);
+        yield return www.Send();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+
+        }
+        else
+        {
+            Debug.Log("Form upload complete!");
+
+
+        }
+    
+
+      
+    }
+
+    public void PlayAgain()
+    {
+        SceneManager.LoadScene("Timed Challenge");
+    }
+    
+    //this will close the set username modal. At the the same time, it will input the username into playerprefs.
+    public void closeAndUpdateUsername()
+    {
+
+
+        PlayerPrefs.SetString("Username", usernameInput.text);
+
+        if (PlayerPrefs.GetString("Username").Length > 2)
+        {
+            setNameLeaderboards.SetActive(false);
+            StartCoroutine(Upload());
+        }
+
+        Debug.Log("From player prefs: " + PlayerPrefs.GetString("Username"));
+
+        
+    }
+
+    public void StartComposer(TwitterSession session, String imageUri)
+    {
+
+        Twitter.Compose(session, imageUri, "I just received a score of " + timedScore.ToString() + " from learning how to play blackjack! Try it yourself! https://play.google.com/store/apps/details?id=com.DDeveloper.BlackJackTrainer", new string[] { "#BlackjackTrainer" },
+              (string tweetId) => { UnityEngine.Debug.Log("Tweet Success, tweetId = " + tweetId); },
+              (ApiError error) => { UnityEngine.Debug.Log("Tweet Failed " + error.message); },
+              () => { Debug.Log("Compose cancelled"); }
+      );
+
+
+    }
+    public void postToTwitter()
+    {
+        Twitter.Init();
+
+        StartLogin();
+
+    }
+    public void StartLogin()
+    {
+        TwitterSession session = Twitter.Session;
+        if (session == null)
+        {
+            Twitter.LogIn(LoginComplete, LoginFailure);
+        }
+        else
+        {
+            LoginComplete(session);
+        }
+    }
+
+    public void LoginComplete(TwitterSession session)
+    {
+        // Start composer or request email
+
+        StartComposer(session, "test");
+    }
+
+    public void LoginFailure(ApiError error)
+    {
+        UnityEngine.Debug.Log("code=" + error.code + " msg=" + error.message);
+    }
+
+
+
 }
