@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using UnityEngine.Advertisements;
-using UnityEngine.Networking;
 using CardObjects;
 
 public class trainMode : MonoBehaviour
