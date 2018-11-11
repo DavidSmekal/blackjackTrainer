@@ -6,7 +6,6 @@ using System;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.Networking;
-using TwitterKit.Unity;
 using CardObjects;
 
 public class timedMode : MonoBehaviour
@@ -752,49 +751,6 @@ public class timedMode : MonoBehaviour
         Debug.Log("From player prefs: " + PlayerPrefs.GetString("Username"));
 
         
-    }
-
-    public void StartComposer(TwitterSession session, String imageUri)
-    {
-
-        Twitter.Compose(session, imageUri, "I just received a score of " + timedScore.ToString() + " from learning how to play blackjack! Try it yourself! https://play.google.com/store/apps/details?id=com.DDeveloper.BlackJackTrainer", new string[] { "#BlackjackTrainer" },
-              (string tweetId) => { UnityEngine.Debug.Log("Tweet Success, tweetId = " + tweetId); },
-              (ApiError error) => { UnityEngine.Debug.Log("Tweet Failed " + error.message); },
-              () => { Debug.Log("Compose cancelled"); }
-      );
-
-
-    }
-    public void postToTwitter()
-    {
-        Twitter.Init();
-
-        StartLogin();
-
-    }
-    public void StartLogin()
-    {
-        TwitterSession session = Twitter.Session;
-        if (session == null)
-        {
-            Twitter.LogIn(LoginComplete, LoginFailure);
-        }
-        else
-        {
-            LoginComplete(session);
-        }
-    }
-
-    public void LoginComplete(TwitterSession session)
-    {
-        // Start composer or request email
-
-        StartComposer(session, "test");
-    }
-
-    public void LoginFailure(ApiError error)
-    {
-        UnityEngine.Debug.Log("code=" + error.code + " msg=" + error.message);
     }
 
 
