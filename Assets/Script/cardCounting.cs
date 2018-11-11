@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class cardCounting :  MonoBehaviour {
@@ -295,6 +297,8 @@ public class cardCounting :  MonoBehaviour {
             // it will confuse the user at the gameover screen
             runningCount.text = " ";
 
+            StartCoroutine(Upload2());
+
         }
 
 
@@ -331,6 +335,35 @@ public class cardCounting :  MonoBehaviour {
     public void showCount()
     {
         runningCountWindow.SetActive(true);
+
+    }
+
+    IEnumerator Upload2()
+    {
+
+        WWWForm form = new WWWForm();
+
+        form.AddField("realCount", arraySum);
+        form.AddField("usersCount", countInt);
+        form.AddField("username", PlayerPrefs.GetString("Username"));
+
+
+        UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/card_counting_scores.php", form);
+        yield return www.Send();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+
+        }
+        else
+        {
+            Debug.Log("Form upload complete!");
+
+
+        }
+
+
 
     }
 
