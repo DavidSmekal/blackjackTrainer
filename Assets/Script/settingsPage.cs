@@ -398,15 +398,11 @@ public class settingsPage : MonoBehaviour
     {
         WWWForm form = new WWWForm();
 
-        // gets the users unique deviceId
-        String uniqueSystemIde = SystemInfo.deviceUniqueIdentifier;
 
 
-        // sends the new username that was typed it, and the systemId
+        // sends the new username that was typed it
         form.AddField("username", newUsername.text);
-        form.AddField("deviceId", uniqueSystemIde);
 
-        
 
 
 

@@ -233,16 +233,13 @@ public class storePurchases : MonoBehaviour
     // this function uploads to the database the item that was purchased
     IEnumerator Upload(string item_purchased, int cost)
     {
-
-        String uniqueSystemIde = SystemInfo.deviceUniqueIdentifier;
-
+    
         WWWForm form = new WWWForm();
 
         // if the user doesn't exist, it will be uploaded anyway and it will be blank in the database
         // The deviceId will still be attached so a username isn't needed
 
         form.AddField("username", PlayerPrefs.GetString("Username"));
-        form.AddField("deviceId", uniqueSystemIde);
         form.AddField("purchaseString", item_purchased);
         form.AddField("cost", cost);
 
