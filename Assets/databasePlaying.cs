@@ -46,7 +46,7 @@ public class databasePlaying : MonoBehaviour {
 
 
         UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/mainMenuDatabase.php", form);
-        yield return www.Send();
+        yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
         {

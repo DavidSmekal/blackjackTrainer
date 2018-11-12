@@ -622,7 +622,7 @@ public class timedMode : MonoBehaviour
 
 
         UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/insert_user.php", form);
-        yield return www.Send();
+        yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
         {
@@ -655,7 +655,7 @@ public class timedMode : MonoBehaviour
 
 
         UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/insert_timedscore.php", form);
-        yield return www.Send();
+        yield return www.SendWebRequest();
 
         if (www.isNetworkError || www.isHttpError)
         {
