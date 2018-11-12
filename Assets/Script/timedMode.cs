@@ -249,7 +249,7 @@ public class timedMode : MonoBehaviour
         skin = PlayerPrefs.GetString("Skin");
 
         // type. 1 = total. 2 = contains ace. 3 = pair.
-        List<CardObject> haha = new List<CardObject>
+        List<CardObject> deckList = new List<CardObject>
         {
             new CardObject() {value = 1, face = "Ace"},
             new CardObject() {value = 1, face = "Ace"},
@@ -344,16 +344,16 @@ public class timedMode : MonoBehaviour
 
 
         //this will show the card totals on the UI
-        SetPlayerCountText(haha[card1], haha[card2]);
-        SetDealerCountText(haha[card3]);
+        SetPlayerCountText(deckList[card1], deckList[card2]);
+        SetDealerCountText(deckList[card3]);
 
         //determines if the user should hit, stand, double or split
-        returned = blackJackCheatSheet.blackJackCheatSheetMethod(haha[card1], haha[card2], haha[card3]);
+        returned = blackJackCheatSheet.blackJackCheatSheetMethod(deckList[card1], deckList[card2], deckList[card3]);
 
         //getting the faces of the cards so it can show up in the modal feedback box
-        card1Face = haha[card1].face;
-        card2Face = haha[card2].face;
-        card3Face = haha[card3].face;
+        card1Face = deckList[card1].face;
+        card2Face = deckList[card2].face;
+        card3Face = deckList[card3].face;
 
 
     }

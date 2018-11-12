@@ -96,7 +96,7 @@ public class cardCounting :  MonoBehaviour {
 
         hideButton.SetActive(true);
 
-        List<CardObject> haha = new List<CardObject>
+        List<CardObject> deckList = new List<CardObject>
         {
             new CardObject() {card = 0, cardCountValue = -1, value = 1, face = "Ace"},
             new CardObject() {card = 1, cardCountValue = -1, value = 1, face = "Ace"},
@@ -151,9 +151,9 @@ public class cardCounting :  MonoBehaviour {
             new CardObject() {card = 50, cardCountValue = -1, value = 10, face = "King"},
             new CardObject() {card = 51, cardCountValue = -1, value = 10, face = "King"},
         };
-        Shuffle(haha);
+        Shuffle(deckList);
 
-        Deck = new Stack<CardObject>(haha);
+        Deck = new Stack<CardObject>(deckList);
 
         // this list will save all the values that have been popped from the deck
         // this is so I can keep track of the card number track
