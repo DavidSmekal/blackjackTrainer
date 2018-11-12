@@ -667,10 +667,10 @@ public class timedMode : MonoBehaviour
         WWWForm form = new WWWForm();
 
         // gets the users unique deviceId
-        String uniqueSystemIde = SystemInfo.deviceUniqueIdentifier;
+        string uniqueSystemIde = PlayerPrefs.GetString("uniqueId");
 
 
-   
+
         form.AddField("username", PlayerPrefs.GetString("Username"));
         form.AddField("deviceId", uniqueSystemIde);
 
@@ -698,7 +698,7 @@ public class timedMode : MonoBehaviour
     IEnumerator Upload2()
     {
         // gets the users unique deviceId
-        String uniqueSystemIde = SystemInfo.deviceUniqueIdentifier;
+        string uniqueSystemIde = PlayerPrefs.GetString("uniqueId");
 
         WWWForm form = new WWWForm();
   

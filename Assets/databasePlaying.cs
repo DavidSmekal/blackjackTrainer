@@ -1,30 +1,43 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-// everytime a user navigates to the home screen, it will add the date and time they entered.
+// Everytime a user navigates to the home screen, it will add the date and time they entered.
 // I'm doing this to see if users are actually playing my game or not.
+// It will create a unique hash for each user and save it into playerprefs, which will be the unique identifer.
 public class databasePlaying : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-        
+    string uniqueSystemIde;
+
+    // Use this for initialization
+    void Start () {
+
+        uniqueSystemIde = PlayerPrefs.GetString("uniqueId");
+
+        if (uniqueSystemIde == null)
+        {
+
+            // this creates a random string that looks like
+            // QhduAHneI. This will be the unique identifier
+            Guid newGuid = Guid.NewGuid();
+            uniqueSystemIde = Convert.ToBase64String(newGuid.ToByteArray());
+            uniqueSystemIde = uniqueSystemIde.Replace("=", "");
+            uniqueSystemIde = uniqueSystemIde.Replace("+", "");
+      
+
+            PlayerPrefs.SetString("uniqueId", uniqueSystemIde);
+        }
+
+
         StartCoroutine(Upload());
 
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     // this will update the user's score
     IEnumerator Upload()
     {
-        // gets the users unique deviceId
-        String uniqueSystemIde = SystemInfo.deviceUniqueIdentifier;
 
         WWWForm form = new WWWForm();
 
@@ -42,11 +55,8 @@ public class databasePlaying : MonoBehaviour {
 
         }
         else
-
         {
             Debug.Log("Form upload complete!");
-
-
         }
 
 

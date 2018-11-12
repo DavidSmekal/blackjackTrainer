@@ -399,14 +399,12 @@ public class settingsPage : MonoBehaviour
         WWWForm form = new WWWForm();
 
         // gets the users unique deviceId
-        String uniqueSystemIde = SystemInfo.deviceUniqueIdentifier;
+        string uniqueSystemIde = PlayerPrefs.GetString("uniqueId");
 
 
         // sends the new username that was typed it, and the systemId
         form.AddField("username", newUsername.text);
         form.AddField("deviceId", uniqueSystemIde);
-
-        
 
 
 

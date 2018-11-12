@@ -234,7 +234,7 @@ public class storePurchases : MonoBehaviour
     IEnumerator Upload(string item_purchased, int cost)
     {
 
-        String uniqueSystemIde = SystemInfo.deviceUniqueIdentifier;
+        string uniqueSystemIde = PlayerPrefs.GetString("uniqueId");
 
         WWWForm form = new WWWForm();
 
