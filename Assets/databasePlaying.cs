@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -21,10 +23,13 @@ public class databasePlaying : MonoBehaviour {
     // this will update the user's score
     IEnumerator Upload()
     {
+        // gets the users unique deviceId
+        String uniqueSystemIde = SystemInfo.deviceUniqueIdentifier;
 
         WWWForm form = new WWWForm();
 
         form.AddField("username", PlayerPrefs.GetString("Username"));
+        form.AddField("deviceId", uniqueSystemIde);
 
 
         UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/mainMenuDatabase.php", form);

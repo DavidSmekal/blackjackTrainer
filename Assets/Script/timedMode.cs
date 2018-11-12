@@ -666,8 +666,13 @@ public class timedMode : MonoBehaviour
     {
         WWWForm form = new WWWForm();
 
+        // gets the users unique deviceId
+        String uniqueSystemIde = SystemInfo.deviceUniqueIdentifier;
+
+
    
         form.AddField("username", PlayerPrefs.GetString("Username"));
+        form.AddField("deviceId", uniqueSystemIde);
 
         PlayerPrefs.SetString("Username", usernameInput.text);
 
@@ -692,6 +697,8 @@ public class timedMode : MonoBehaviour
     // this will update the user's score
     IEnumerator Upload2()
     {
+        // gets the users unique deviceId
+        String uniqueSystemIde = SystemInfo.deviceUniqueIdentifier;
 
         WWWForm form = new WWWForm();
   
@@ -701,6 +708,7 @@ public class timedMode : MonoBehaviour
         form.AddField("incorrect", incorrect);
         form.AddField("highestStreak", highestStreakCount);
         form.AddField("username", PlayerPrefs.GetString("Username"));
+        form.AddField("deviceId", uniqueSystemIde);
 
 
         UnityWebRequest www = UnityWebRequest.Post("http://107.170.227.172/insert_timedscore.php", form);
