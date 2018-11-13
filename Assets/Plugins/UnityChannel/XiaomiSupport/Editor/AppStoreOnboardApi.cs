@@ -43,7 +43,7 @@ namespace AppStoresSupport
 			if (token != null) {
 				request.SetRequestHeader ("Authorization", "Bearer " + token);
 			}
-			request.Send ();
+			request.SendWebRequest ();
 			return request;
 		}
 

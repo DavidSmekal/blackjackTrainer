@@ -68,11 +68,11 @@ public class inappPurchase : MonoBehaviour, IStoreListener
 
         var options = new ShowOptions { resultCallback = HandleShowResult };
         Advertisement.Show(RewardedPlacementId, options);
-        #endif
+        #  endif
     }
 
     // handles the results after user watched an add
-    void HandleShowResult(ShowResult result)
+    void HandleShowResult(UnityEngine.Advertisements.ShowResult result)
     {
 
         switch (result)
