@@ -22,6 +22,7 @@ public class settingsPage : MonoBehaviour
     public GameObject modalWindow;
     public GameObject modalWindow2;
     public GameObject modalWindow3;
+    public GameObject privacyPolicyModalWindow;
 
     public GameObject modalLeaderboard;
     public GameObject modalchangeUserName;
@@ -244,6 +245,17 @@ public class settingsPage : MonoBehaviour
 
         // this makes the checkmark fade
         checkMarkConfirmationMusic.CrossFadeAlpha(0.0f, 1.0f, false);
+    }
+
+    public void viewPrivacyPolicyModal()
+    {
+        // this shows the modal pop up
+        privacyPolicyModalWindow.SetActive(true);
+    }
+
+    public void closePrivacyPolicyModal()
+    {
+        privacyPolicyModalWindow.SetActive(false);
     }
 
     public void viewCreditPage()
